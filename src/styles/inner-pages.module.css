@@ -17,7 +17,7 @@
 .hero {
   position: relative;
   overflow: hidden;
-  padding: clamp(5rem, 10vw, 8.5rem) 0 clamp(4rem, 8vw, 7rem);
+  padding: clamp(5rem, 10vw, 8.5rem) 0 clamp(1rem, 2vw, 1.5rem);
   background:
     radial-gradient(circle at 84% 16%, color-mix(in srgb, var(--accent, #d8ff52) 22%, transparent), transparent 28%),
     linear-gradient(145deg, #050505 0%, #11120f 72%, #1a1d14 100%);
@@ -243,7 +243,7 @@
 }
 
 .section {
-  padding: clamp(4rem, 8vw, 7.5rem) 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(4rem, 8vw, 7.5rem) 0;
 }
 
 .sectionAlt {
@@ -450,7 +450,7 @@
 }
 
 .archiveHero {
-  padding: clamp(4.5rem, 9vw, 7.5rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+  padding: clamp(4.5rem, 9vw, 7.5rem) 0 clamp(1rem, 2vw, 1.5rem);
   background: #080808;
 }
 
@@ -995,7 +995,7 @@
 }
 
 .formSection {
-  padding: clamp(3rem, 7vw, 6rem) 0 clamp(5rem, 10vw, 8rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(5rem, 10vw, 8rem);
 }
 
 .formShell {
