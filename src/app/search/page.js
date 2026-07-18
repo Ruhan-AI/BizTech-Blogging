@@ -6,6 +6,9 @@ import styles from "../../styles/inner-pages.module.css";
 export const metadata = {
   title: "Search | BizTech Blogging",
   description: "Search contributor insights across the BizTech Blogging library.",
+  alternates: {
+    canonical: "/search",
+  },
 };
 
 export default async function SearchPage({ searchParams }) {
@@ -36,7 +39,7 @@ export default async function SearchPage({ searchParams }) {
             <form className={styles.searchForm} action="/search" method="get" role="search">
               <div className={styles.searchInputWrap}>
                 <Search className={styles.searchIcon} size={19} aria-hidden="true" />
-                <label className={styles.honeypot} htmlFor="site-search">Search insights</label>
+                <label className="sr-only" htmlFor="site-search">Search insights</label>
                 <input
                   className={styles.searchInput}
                   id="site-search"

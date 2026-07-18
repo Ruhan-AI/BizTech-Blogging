@@ -5,6 +5,9 @@ export const metadata = {
   title: "Contributor Terms | BizTech Blogging",
   description:
     "The terms that apply when you submit an article to BizTech Blogging.",
+  alternates: {
+    canonical: "/contributor-terms",
+  },
 };
 
 export default function ContributorTermsPage() {

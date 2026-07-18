@@ -22,11 +22,20 @@ export const metadata = {
     title: "BizTech Blogging | Ideas Built for Real-World Growth",
     description:
       "Independent thinking, practical playbooks, and field-tested ideas for modern business teams.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "BizTech Blogging - Practical Growth Insights",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "BizTech Blogging",
     description: "Ideas built for real-world growth.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,

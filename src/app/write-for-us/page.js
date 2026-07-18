@@ -15,6 +15,9 @@ export const metadata = {
   title: "Write for Us | BizTech Blogging",
   description:
     "Share practical business, growth, people, brand, web, startup, or career insight with the BizTech Blogging community.",
+  alternates: {
+    canonical: "/write-for-us",
+  },
 };
 
 const guidelines = [

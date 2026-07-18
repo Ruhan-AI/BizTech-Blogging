@@ -7,6 +7,9 @@ export const metadata = {
   title: "About | BizTech Blogging",
   description:
     "BizTech Blogging brings credible outside voices into the BizTech Resource Analyst community.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 const principles = [

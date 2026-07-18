@@ -7,6 +7,9 @@ export const metadata = {
   title: "Submit an Article | BizTech Blogging",
   description:
     "Submit an original guest article to the BizTech Blogging editorial team. No account required.",
+  alternates: {
+    canonical: "/submit",
+  },
 };
 
 export default function SubmitPage() {

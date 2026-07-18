@@ -21,6 +21,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${category.name} | BizTech Blogging`,
     description: category.description,
+    alternates: {
+      canonical: `/category/${slug}`,
+    },
   };
 }
 

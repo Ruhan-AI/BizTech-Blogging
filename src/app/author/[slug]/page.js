@@ -17,6 +17,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${author.name} | BizTech Blogging`,
     description: author.bio,
+    alternates: {
+      canonical: `/author/${slug}`,
+    },
   };
 }
 

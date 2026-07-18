@@ -19,16 +19,19 @@ import PostCard from "./PostCard";
 import NewsletterForm from "./NewsletterForm";
 
 export default function HomePage() {
-  const topicNames = useMemo(
-    () => ["All insights", ...categories.map((category) => category.name)],
+  const topics = useMemo(
+    () => [
+      { label: "All insights", value: "all" },
+      ...categories.map((category) => ({ label: category.shortName, value: category.name })),
+    ],
     [],
   );
-  const [activeTopic, setActiveTopic] = useState("All insights");
+  const [activeTopic, setActiveTopic] = useState("all");
   const featured = posts.find((post) => post.featured) || posts[0];
   const filteredPosts = posts.filter(
     (post) =>
       post.slug !== featured.slug &&
-      (activeTopic === "All insights" || post.category === activeTopic),
+      (activeTopic === "all" || post.category === activeTopic),
   );
   const visiblePosts = filteredPosts.length ? filteredPosts : posts.slice(1);
 
@@ -134,15 +137,15 @@ export default function HomePage() {
           </div>
 
           <div className="topic-filters" role="group" aria-label="Filter insights by topic" data-reveal>
-            {topicNames.map((topic) => (
+            {topics.map((topic) => (
               <button
-                key={topic}
+                key={topic.value}
                 type="button"
-                className={activeTopic === topic ? "is-active" : ""}
-                aria-pressed={activeTopic === topic}
-                onClick={() => setActiveTopic(topic)}
+                className={activeTopic === topic.value ? "is-active" : ""}
+                aria-pressed={activeTopic === topic.value}
+                onClick={() => setActiveTopic(topic.value)}
               >
-                {topic}
+                {topic.label}
               </button>
             ))}
           </div>

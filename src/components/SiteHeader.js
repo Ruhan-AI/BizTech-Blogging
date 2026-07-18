@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Menu, PenLine, Search, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Menu, PenLine, Search, X } from "lucide-react";
 import Logo from "./Logo";
+import { categories } from "@/data/posts";
 
 const navItems = [
   { label: "Latest", href: "/#latest" },
@@ -47,7 +48,19 @@ export default function SiteHeader() {
           {navItems.map((item) => (
             <Link key={item.label} href={item.href}>{item.label}</Link>
           ))}
-          <Link href="/category/seo-digital-growth">Categories</Link>
+          <div className="nav-dropdown">
+            <button className="nav-dropdown-trigger" type="button">
+              Categories
+              <ChevronDown size={13} aria-hidden="true" />
+            </button>
+            <div className="nav-dropdown-menu">
+              {categories.map((category) => (
+                <Link key={category.slug} href={`/category/${category.slug}`}>
+                  {category.shortName}
+                </Link>
+              ))}
+            </div>
+          </div>
         </nav>
 
         <div className="header-actions">
@@ -101,12 +114,14 @@ export default function SiteHeader() {
               {item.label}<ArrowUpRight size={17} aria-hidden="true" />
             </Link>
           ))}
-          <Link href="/category/seo-digital-growth">
-            SEO &amp; Digital Growth<ArrowUpRight size={17} aria-hidden="true" />
-          </Link>
-          <Link href="/category/startup-business-strategy">
-            Startup Strategy<ArrowUpRight size={17} aria-hidden="true" />
-          </Link>
+          <div className="mobile-categories-section">
+            <p className="mobile-section-title">Categories</p>
+            {categories.map((category) => (
+              <Link key={category.slug} href={`/category/${category.slug}`} className="mobile-category-link">
+                {category.name}<ArrowUpRight size={15} aria-hidden="true" />
+              </Link>
+            ))}
+          </div>
         </nav>
         <Link className="button button-primary mobile-submit" href="/submit">
           Submit your article<PenLine size={17} aria-hidden="true" />

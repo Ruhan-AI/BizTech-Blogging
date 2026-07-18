@@ -5,6 +5,9 @@ export const metadata = {
   title: "Privacy Policy | BizTech Blogging",
   description:
     "How BizTech Blogging handles visitor and contributor information.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {
