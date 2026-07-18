@@ -2466,3 +2466,9 @@ body {
 .mobile-category-link:hover {
   color: #fff !important;
 }
+
+/* Fix dropdown option clashing colours on dark themes */
+select option {
+  background-color: #0d0d2b;
+  color: #ffffff;
+}

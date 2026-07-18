@@ -1473,6 +1473,11 @@
   color: #fff;
 }
 
+.select option {
+  background-color: #0d0d2b;
+  color: #fff;
+}
+
 .searchInput::placeholder,
 .input::placeholder,
 .textarea::placeholder {
