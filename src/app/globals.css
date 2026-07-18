@@ -1106,6 +1106,7 @@ select:focus-visible {
   line-height: 1.65;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .post-card-footer {
