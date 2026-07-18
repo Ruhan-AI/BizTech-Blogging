@@ -1414,7 +1414,7 @@ select:focus-visible {
   position: relative;
   padding: 84px 0 0;
   overflow: hidden;
-  background: rgba(3, 3, 10, 0.68);
+  background: var(--bg-deep, #030308);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
