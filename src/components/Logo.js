@@ -15,7 +15,6 @@ export default function Logo({ footer = false, onClick }) {
       </span>
       <span className="brand-subline">
         <span>Blogging</span>
-        <i aria-hidden="true" />
       </span>
     </Link>
   );

@@ -2062,3 +2062,293 @@ select:focus-visible {
     transform: none !important;
   }
 }
+
+/* BizTech Resource Analyst brand alignment */
+@font-face {
+  font-family: "BizTech Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-var-latin.woff2") format("woff2");
+}
+
+html {
+  background: #0a0a2e;
+}
+
+body {
+  background: linear-gradient(180deg, #0a0a2e 0%, #0d0d2b 50%, #0a0a2e 100%);
+  font-family: "BizTech Inter", Inter, Arial, sans-serif;
+}
+
+.site-background {
+  contain: paint;
+  background: linear-gradient(180deg, #181544 0%, #0f1031 30%, #09091d 64%, #04040c 100%);
+}
+
+.background-band,
+.background-overlay {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.background-band {
+  filter: blur(64px);
+  will-change: transform;
+}
+
+.background-band-top {
+  top: -128px;
+  right: -18%;
+  left: -18%;
+  height: 416px;
+  background: linear-gradient(90deg, rgba(96, 84, 255, 0) 0%, rgba(96, 84, 255, 0.24) 20%, rgba(255, 70, 166, 0.2) 58%, rgba(255, 70, 166, 0) 100%);
+  transform: rotate(-7deg);
+}
+
+.background-band-middle {
+  top: 32%;
+  right: -14%;
+  left: -14%;
+  height: 352px;
+  background: linear-gradient(90deg, rgba(21, 146, 255, 0) 0%, rgba(21, 146, 255, 0.14) 18%, rgba(125, 99, 255, 0.22) 50%, rgba(255, 56, 174, 0.16) 82%, rgba(255, 56, 174, 0) 100%);
+  transform: rotate(5deg);
+}
+
+.background-band-bottom {
+  right: -16%;
+  bottom: -96px;
+  left: -16%;
+  height: 384px;
+  background: linear-gradient(90deg, rgba(255, 56, 174, 0) 0%, rgba(255, 56, 174, 0.16) 22%, rgba(125, 99, 255, 0.22) 52%, rgba(79, 118, 255, 0.12) 78%, rgba(79, 118, 255, 0) 100%);
+  transform: rotate(-4deg);
+}
+
+.background-overlay {
+  inset: 0;
+  background:
+    radial-gradient(circle at top center, rgba(255, 255, 255, 0.08), transparent 28%),
+    radial-gradient(circle at bottom center, rgba(125, 99, 255, 0.08), transparent 32%);
+}
+
+.site-header {
+  position: fixed;
+  padding-block: 20px;
+  border-bottom: 0;
+  transition: padding 300ms ease, background 300ms ease, box-shadow 300ms ease, backdrop-filter 300ms ease;
+}
+
+.site-header.is-scrolled {
+  padding-block: 12px;
+  background: rgba(10, 10, 46, 0.9);
+  border-color: transparent;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(40px);
+}
+
+.header-shell {
+  width: 100%;
+  max-width: 1600px;
+  min-height: 44px;
+  padding-inline: 24px;
+  gap: 28px;
+}
+
+.brand-logo {
+  min-width: 0;
+  align-items: center;
+  line-height: 1;
+}
+
+.brand-wordmark {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: -0.025em;
+}
+
+.brand-subline {
+  display: block;
+  width: auto;
+  margin-top: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 0.18em;
+  text-align: center;
+}
+
+.desktop-nav {
+  gap: 28px;
+}
+
+.desktop-nav a {
+  padding: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.desktop-nav a::after {
+  bottom: -4px;
+  background: linear-gradient(90deg, #6c4cff, #ff2ea6);
+  transition-duration: 300ms;
+}
+
+.header-actions {
+  gap: 16px;
+}
+
+.header-secondary-action {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.header-secondary-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.header-cta {
+  min-height: 40px;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #7d63ff 0%, #ff38ae 100%);
+  border: 0;
+  border-radius: 9999px;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.header-cta:hover {
+  opacity: 0.95;
+  transform: scale(1.05);
+}
+
+.header-cta::after,
+.mobile-submit::after {
+  display: none;
+  content: none;
+}
+
+.search-drawer {
+  top: 100%;
+  background: rgba(10, 10, 46, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+}
+
+@media (min-width: 1280px) {
+  .header-shell {
+    padding-inline: 48px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .desktop-nav,
+  .search-toggle,
+  .header-cta {
+    display: none;
+  }
+
+  .header-shell {
+    width: 100%;
+    min-height: 44px;
+    padding-inline: 24px;
+  }
+
+  .header-actions {
+    margin-left: auto;
+    gap: 0;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: transparent;
+    border: 0;
+    border-radius: 12px;
+  }
+
+  .mobile-panel {
+    position: fixed;
+    top: var(--header-height, 84px);
+    right: 0;
+    left: 0;
+    display: block;
+    min-height: auto;
+    max-height: calc(100dvh - 70px);
+    padding: 24px 24px calc(24px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    visibility: hidden;
+    background: rgba(10, 10, 46, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 0;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.42);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    backdrop-filter: blur(40px);
+  }
+
+  .mobile-panel.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-panel nav {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mobile-panel nav a {
+    padding: 6px 0;
+    color: rgba(255, 255, 255, 0.85);
+    border-bottom: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  .mobile-submit {
+    width: 100%;
+    min-height: 40px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #7d63ff 0%, #ff38ae 100%);
+    border: 0;
+    border-radius: 9999px;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .background-band {
+    display: none;
+  }
+}

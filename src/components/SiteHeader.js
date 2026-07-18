@@ -20,7 +20,7 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 25);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -40,18 +40,6 @@ export default function SiteHeader() {
 
   return (
     <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
-      <div className="brand-ribbon">
-        <a
-          href="https://www.biztechra.site/"
-          target="_blank"
-          rel="noreferrer"
-          className="brand-ribbon-link"
-        >
-          <span className="ribbon-dot" aria-hidden="true" />
-          Part of BizTech Resource Analyst
-          <ArrowUpRight size={13} strokeWidth={2.3} aria-hidden="true" />
-        </a>
-      </div>
       <div className="header-shell">
         <Logo onClick={() => setMenuOpen(false)} />
 
@@ -64,17 +52,18 @@ export default function SiteHeader() {
 
         <div className="header-actions">
           <button
-            className="icon-button search-toggle"
+            className="header-secondary-action search-toggle"
             type="button"
             aria-label={searchOpen ? "Close search" : "Open search"}
             aria-expanded={searchOpen}
             onClick={() => setSearchOpen((value) => !value)}
           >
-            {searchOpen ? <X size={18} /> : <Search size={18} />}
+            {searchOpen ? <X size={16} /> : <Search size={16} />}
+            <span>{searchOpen ? "Close" : "Search"}</span>
           </button>
           <Link className="button button-primary header-cta" href="/submit">
-            <PenLine size={16} aria-hidden="true" />
             Submit an article
+            <PenLine size={16} aria-hidden="true" />
           </Link>
           <button
             type="button"
@@ -120,7 +109,7 @@ export default function SiteHeader() {
           </Link>
         </nav>
         <Link className="button button-primary mobile-submit" href="/submit">
-          <PenLine size={17} aria-hidden="true" />Submit your article
+          Submit your article<PenLine size={17} aria-hidden="true" />
         </Link>
       </div>
     </header>

@@ -43,9 +43,10 @@ export default function RootLayout({ children }) {
         </a>
         <div className="page-progress" aria-hidden="true" />
         <div className="site-background" aria-hidden="true">
-          <span className="background-orb background-orb-one" />
-          <span className="background-orb background-orb-two" />
-          <span className="background-grid" />
+          <span className="background-band background-band-top" />
+          <span className="background-band background-band-middle" />
+          <span className="background-band background-band-bottom" />
+          <span className="background-overlay" />
         </div>
         <SiteHeader />
         <div id="main-content">{children}</div>

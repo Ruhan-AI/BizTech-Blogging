@@ -35,7 +35,6 @@ export default function HomePage() {
   return (
     <>
       <section className="home-hero">
-        <div className="hero-haze" aria-hidden="true" />
         <div className="container hero-grid">
           <div className="hero-copy">
             <div className="eyebrow-pill" data-hero-reveal>
