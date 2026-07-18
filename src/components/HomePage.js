@@ -172,13 +172,13 @@ export default function HomePage() {
               Read the contributor guide <ArrowRight size={17} />
             </Link>
           </div>
-          <div className="standards-cards">
+          <div className="standards-cards" data-reveal>
             {[
               [SearchCheck, "Original by default", "New thinking, first-hand lessons, and no recycled filler."],
               [Users, "Human-reviewed", "Every article is shaped by an editor before it goes live."],
               [TrendingUp, "Built to be useful", "Clear takeaways for founders, operators, and growing teams."],
-            ].map(([Icon, title, body], index) => (
-              <article key={title} data-reveal data-float={index === 1 ? "" : undefined}>
+            ].map(([Icon, title, body]) => (
+              <article key={title}>
                 <span><Icon size={22} aria-hidden="true" /></span>
                 <div><h3>{title}</h3><p>{body}</p></div>
               </article>
