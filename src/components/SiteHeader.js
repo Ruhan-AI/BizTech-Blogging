@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, ChevronDown, Menu, PenLine, Search, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Menu, PenLine, Search, X, Flame } from "lucide-react";
 import Logo from "./Logo";
-import { categories } from "@/data/posts";
+import { categories, posts } from "@/data/posts";
 
 const navItems = [
   { label: "Latest", href: "/#latest" },
+  { label: "Charts", href: "/#charts" },
   { label: "Topics", href: "/#topics" },
   { label: "Write for us", href: "/write-for-us" },
   { label: "About", href: "/about" },
@@ -19,6 +20,15 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Generate ticker items from posts
+  const tickerItems = [
+    { label: "Charts", text: "Explore the new BizTech Hot Leaderboards!", href: "/#charts" },
+    { label: "Hot #1", text: posts[0]?.title, href: `/insights/${posts[0]?.slug}` },
+    { label: "Trending", text: posts[1]?.title, href: `/insights/${posts[1]?.slug}` },
+    { label: "SEO & Growth", text: posts[6]?.title, href: `/insights/${posts[6]?.slug}` },
+    { label: "Careers", text: posts[5]?.title, href: `/insights/${posts[5]?.slug}` },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 25);
@@ -43,6 +53,7 @@ export default function SiteHeader() {
     <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
       <div className="header-shell">
         <Logo onClick={() => setMenuOpen(false)} />
+
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
@@ -75,7 +86,7 @@ export default function SiteHeader() {
             <span>{searchOpen ? "Close" : "Search"}</span>
           </button>
           <Link className="button button-primary header-cta" href="/submit">
-            Submit an article
+            Submit Guest Post
             <PenLine size={16} aria-hidden="true" />
           </Link>
           <button
@@ -87,6 +98,29 @@ export default function SiteHeader() {
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
+        </div>
+      </div>
+
+      <div className="trending-ticker-container">
+        <div className="trending-ticker-label">
+          <Flame size={12} aria-hidden="true" />
+          <span>Trending</span>
+        </div>
+        <div className="trending-ticker-content">
+          <div className="trending-ticker-track">
+            {tickerItems.map((item, idx) => (
+              <Link key={`first-${idx}`} href={item.href} className="trending-ticker-item">
+                <span className="ticker-badge">{item.label}:</span>
+                <span>{item.text}</span>
+              </Link>
+            ))}
+            {tickerItems.map((item, idx) => (
+              <Link key={`second-${idx}`} href={item.href} className="trending-ticker-item">
+                <span className="ticker-badge">{item.label}:</span>
+                <span>{item.text}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -124,7 +158,7 @@ export default function SiteHeader() {
           </div>
         </nav>
         <Link className="button button-primary mobile-submit" href="/submit">
-          Submit your article<PenLine size={17} aria-hidden="true" />
+          Submit Guest Post<PenLine size={17} aria-hidden="true" />
         </Link>
       </div>
     </header>

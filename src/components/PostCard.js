@@ -8,6 +8,28 @@ export default function PostCard({ post }) {
       style={{ "--post-gradient": post.gradient }}
       data-reveal
     >
+      {post.isGuestPost && (
+        <span 
+          className="guest-validation-badge" 
+          style={{
+            position: "absolute",
+            top: "12px",
+            right: "12px",
+            zIndex: 10,
+            background: post.planSelected === "free" ? "rgba(0, 216, 189, 0.95)" : "rgba(255, 46, 166, 0.95)",
+            color: "#05050d",
+            fontSize: "9px",
+            fontWeight: "900",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            padding: "4px 8px",
+            borderRadius: "6px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
+          }}
+        >
+          {post.planSelected === "free" ? "Free 7-Day" : "Premium Guest"}
+        </span>
+      )}
       <Link
         href={`/insights/${post.slug}`}
         className="post-art"

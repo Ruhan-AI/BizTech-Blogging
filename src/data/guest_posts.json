@@ -1,0 +1,33 @@
+[
+  {
+    "slug": "compounding-guest-posting-strategy-for-saas-5434",
+    "title": "Compounding Guest Posting Strategy for SaaS",
+    "excerpt": "A complete guide on compounding guest posting strategies for SaaS companies to scale search traffic.",
+    "category": "SEO & Digital Growth",
+    "categorySlug": "seo-digital-growth",
+    "date": "2026-07-20",
+    "readTime": "6 min read",
+    "author": {
+      "name": "Ruhan SEO Specialist",
+      "slug": "ruhan-seo-specialist",
+      "role": "SEO Lead",
+      "initials": "RS",
+      "bio": "SEO veteran"
+    },
+    "gradient": "linear-gradient(135deg, #090909 0%, #28223a 58%, #a98aff 145%)",
+    "featured": false,
+    "tags": [
+      "SEO",
+      "backlinks",
+      "ranking"
+    ],
+    "planSelected": "3months",
+    "expiryDate": "2026-10-18",
+    "gdriveImage": "https://drive.google.com/file/d/example",
+    "backlinkUrl": "https://mysite.com/deals",
+    "anchorText": "best SEO deals",
+    "metaDescription": "A complete guide on compounding guest posting strategies for SaaS companies to scale search traffic.",
+    "focusKeywords": "SEO, backlinks, ranking",
+    "isGuestPost": true
+  }
+]

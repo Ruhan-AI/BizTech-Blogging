@@ -49,7 +49,9 @@ const contributorProfiles = {
   },
 };
 
-export const posts = [
+import guestPosts from "./guest_posts.json";
+
+const staticPosts = [
   {
     slug: "building-an-seo-system-that-compounds",
     title: "Build an SEO System That Compounds, Not a Calendar That Exhausts",
@@ -420,6 +422,8 @@ export const posts = [
     ],
   },
 ];
+
+export const posts = [...staticPosts, ...guestPosts];
 
 const categoryBlueprints = [
   {

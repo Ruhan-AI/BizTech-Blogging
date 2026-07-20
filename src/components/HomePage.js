@@ -13,8 +13,9 @@ import {
   Sparkles,
   TrendingUp,
   Users,
+  Flame,
 } from "lucide-react";
-import { categories, posts } from "@/data/posts";
+import { categories, posts, authors } from "@/data/posts";
 import PostCard from "./PostCard";
 import NewsletterForm from "./NewsletterForm";
 
@@ -27,6 +28,8 @@ export default function HomePage() {
     [],
   );
   const [activeTopic, setActiveTopic] = useState("all");
+  const [activeTab, setActiveTab] = useState("insights");
+
   const featured = posts.find((post) => post.featured) || posts[0];
   const filteredPosts = posts.filter(
     (post) =>
@@ -34,6 +37,31 @@ export default function HomePage() {
       (activeTopic === "all" || post.category === activeTopic),
   );
   const visiblePosts = filteredPosts.length ? filteredPosts : posts.slice(1);
+
+  // Billboard-style charts data structured using real posts/categories/authors
+  const hotInsights = useMemo(() => [
+    { post: posts[0], change: "steady", changeText: "steady" },
+    { post: posts[1], change: "up", changeText: "up 2" },
+    { post: posts[2], change: "new", changeText: "new" },
+    { post: posts[3], change: "down", changeText: "down 1" },
+    { post: posts[4], change: "up", changeText: "up 4" },
+  ], []);
+
+  const topContributors = useMemo(() => [
+    { author: authors.find(a => a.slug === "amina-carter"), change: "steady", changeText: "steady" },
+    { author: authors.find(a => a.slug === "marcus-reed"), change: "up", changeText: "up 1" },
+    { author: authors.find(a => a.slug === "daniel-kim"), change: "steady", changeText: "steady" },
+    { author: authors.find(a => a.slug === "sofia-malik"), change: "new", changeText: "new" },
+    { author: authors.find(a => a.slug === "lena-ortiz"), change: "up", changeText: "up 2" },
+  ], []);
+
+  const trendingTopics = useMemo(() => [
+    { category: categories.find(c => c.slug === "seo-digital-growth"), change: "steady", changeText: "steady" },
+    { category: categories.find(c => c.slug === "hr-people-operations"), change: "up", changeText: "up 1" },
+    { category: categories.find(c => c.slug === "website-development-design"), change: "steady", changeText: "steady" },
+    { category: categories.find(c => c.slug === "social-media-branding"), change: "steady", changeText: "steady" },
+    { category: categories.find(c => c.slug === "startup-business-strategy"), change: "new", changeText: "new" },
+  ], []);
 
   return (
     <>
@@ -112,6 +140,133 @@ export default function HomePage() {
         </div>
       </div>
 
+      <section className="charts-section" id="charts" data-reveal>
+        <div className="container">
+          <div className="charts-container">
+            <div className="charts-header">
+              <div className="charts-title-group">
+                <h2>BizTech Hot Leaderboard</h2>
+                <p>Rankings of top insights, active contributors, and trending business topics.</p>
+              </div>
+              <div className="charts-tabs" role="tablist" aria-label="Leaderboard tabs">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === "insights"}
+                  className={`charts-tab${activeTab === "insights" ? " is-active" : ""}`}
+                  onClick={() => setActiveTab("insights")}
+                >
+                  Hot Insights
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === "contributors"}
+                  className={`charts-tab${activeTab === "contributors" ? " is-active" : ""}`}
+                  onClick={() => setActiveTab("contributors")}
+                >
+                  Top Contributors
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === "topics"}
+                  className={`charts-tab${activeTab === "topics" ? " is-active" : ""}`}
+                  onClick={() => setActiveTab("topics")}
+                >
+                  Trending Topics
+                </button>
+              </div>
+            </div>
+
+            <div className="charts-list" aria-live="polite">
+              {activeTab === "insights" &&
+                hotInsights.map((item, idx) => (
+                  <div key={item.post.slug} className="chart-row">
+                    <div className="chart-rank-num">{idx + 1}</div>
+                    <div>
+                      <span className={`chart-change-badge change-${item.change}`}>
+                        {item.changeText}
+                      </span>
+                    </div>
+                    <div className="chart-item-main">
+                      <Link href={`/insights/${item.post.slug}`} className="chart-item-title">
+                        {item.post.title}
+                      </Link>
+                      <span className="chart-item-subtitle">{item.post.category}</span>
+                    </div>
+                    <div className="chart-item-meta">
+                      <span>Author</span>
+                      <Link href={`/author/${item.post.author.slug}`}>
+                        <strong>{item.post.author.name}</strong>
+                      </Link>
+                    </div>
+                    <div className="chart-item-action">
+                      <Link href={`/insights/${item.post.slug}`} className="chart-action-btn" aria-label="View insight">
+                        <ArrowUpRight size={18} />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+
+              {activeTab === "contributors" &&
+                topContributors.map((item, idx) => (
+                  <div key={item.author.slug} className="chart-row">
+                    <div className="chart-rank-num">{idx + 1}</div>
+                    <div>
+                      <span className={`chart-change-badge change-${item.change}`}>
+                        {item.changeText}
+                      </span>
+                    </div>
+                    <div className="chart-item-main">
+                      <Link href={`/author/${item.author.slug}`} className="chart-item-title">
+                        {item.author.name}
+                      </Link>
+                      <span className="chart-item-subtitle">{item.author.role}</span>
+                    </div>
+                    <div className="chart-item-meta">
+                      <span>Articles Published</span>
+                      <strong>{item.author.postCount}</strong>
+                    </div>
+                    <div className="chart-item-action">
+                      <Link href={`/author/${item.author.slug}`} className="chart-action-btn" aria-label="View contributor profile">
+                        <ArrowUpRight size={18} />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+
+              {activeTab === "topics" &&
+                trendingTopics.map((item, idx) => (
+                  <div key={item.category.slug} className="chart-row">
+                    <div className="chart-rank-num">{idx + 1}</div>
+                    <div>
+                      <span className={`chart-change-badge change-${item.change}`}>
+                        {item.changeText}
+                      </span>
+                    </div>
+                    <div className="chart-item-main">
+                      <Link href={`/category/${item.category.slug}`} className="chart-item-title">
+                        {item.category.name}
+                      </Link>
+                      <span className="chart-item-subtitle">{item.category.description}</span>
+                    </div>
+                    <div className="chart-item-meta">
+                      <span>Article Count</span>
+                      <strong>{item.category.count}</strong>
+                    </div>
+                    <div className="chart-item-action">
+                      <Link href={`/category/${item.category.slug}`} className="chart-action-btn" aria-label="View category insights">
+                        <ArrowUpRight size={18} />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="editorial-intro section-space" id="topics">
         <div className="container intro-grid">
           <div data-reveal>
@@ -150,8 +305,35 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="post-grid" aria-live="polite">
-            {visiblePosts.slice(0, 6).map((post) => <PostCard key={post.slug} post={post} />)}
+          <div className="editorial-split-grid" aria-live="polite">
+            <div className="picks-container">
+              <div className="picks-grid">
+                {visiblePosts.slice(0, 4).map((post) => (
+                  <PostCard key={post.slug} post={post} />
+                ))}
+              </div>
+            </div>
+
+            <div className="trending-feed" data-reveal>
+              <div className="trending-feed-header">
+                <Flame size={20} className="brand-tech" aria-hidden="true" />
+                <h2>Trending Insights</h2>
+              </div>
+              <div className="trending-feed-list">
+                {posts.slice(1, 6).map((post, idx) => (
+                  <div key={post.slug} className="trending-feed-item">
+                    <span className="trending-feed-num">{idx + 1}</span>
+                    <div className="trending-feed-content">
+                      <span className="trending-feed-category">{post.category}</span>
+                      <Link href={`/insights/${post.slug}`} className="trending-feed-link">
+                        {post.title}
+                      </Link>
+                      <span className="trending-feed-author">By {post.author.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="section-end" data-reveal>

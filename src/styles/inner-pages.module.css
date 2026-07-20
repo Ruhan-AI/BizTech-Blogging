@@ -1517,3 +1517,11 @@
   opacity: 0.95;
   transform: scale(1.03);
 }
+
+@media (min-width: 681px) {
+  .hero,
+  .archiveHero,
+  .articleHeader {
+    padding-top: calc(var(--header-height, 124px) + 2.5rem) !important;
+  }
+}
