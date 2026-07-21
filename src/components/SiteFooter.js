@@ -5,18 +5,18 @@ import Logo from "./Logo";
 const pageLinks = [
   ["Latest insights", "/#latest"],
   ["Write for us", "/write-for-us"],
-  ["Submit an article", "/submit"],
+  ["Submit Guest Post", "/submit"],
   ["About", "/about"],
   ["Search", "/search"],
 ];
 
 const topicLinks = [
-  ["SEO & Digital Growth", "/category/seo-digital-growth"],
-  ["People & HR", "/category/hr-people-operations"],
-  ["Brand & Social", "/category/social-media-branding"],
-  ["Web & Product", "/category/website-development-design"],
+  ["SEO & Growth", "/category/seo-digital-growth"],
+  ["People Operations", "/category/hr-people-operations"],
+  ["Branding", "/category/social-media-branding"],
+  ["Web & Design", "/category/website-development-design"],
   ["Startup Strategy", "/category/startup-business-strategy"],
-  ["Careers & Skills", "/category/vocational-career-development"],
+  ["Career Development", "/category/vocational-career-development"],
 ];
 
 export default function SiteFooter() {
@@ -51,7 +51,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="footer-column footer-topics">
-          <h2>Topics</h2>
+          <h2>Categories</h2>
           <ul>
             {topicLinks.map(([label, href]) => (
               <li key={label}><Link href={href}>{label}</Link></li>
