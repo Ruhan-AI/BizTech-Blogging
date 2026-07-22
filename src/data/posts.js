@@ -469,9 +469,27 @@ export const categories = categoryBlueprints.map((category) => ({
   count: posts.filter((post) => post.categorySlug === category.slug).length,
 }));
 
-export const authors = Object.values(contributorProfiles).map((author) => ({
+const allAuthorMap = new Map();
+Object.values(contributorProfiles).forEach((author) => {
+  allAuthorMap.set(author.slug, author);
+});
+
+posts.forEach((post) => {
+  if (post.author && post.author.slug && !allAuthorMap.has(post.author.slug)) {
+    allAuthorMap.set(post.author.slug, {
+      name: post.author.name,
+      slug: post.author.slug,
+      role: post.author.role || "SEO Specialist & Guest Contributor",
+      initials: post.author.initials || "GP",
+      bio: post.author.bio || "Guest contributor sharing practical SEO and growth insights.",
+      location: post.author.location || "Remote",
+    });
+  }
+});
+
+export const authors = Array.from(allAuthorMap.values()).map((author) => ({
   ...author,
-  postCount: posts.filter((post) => post.author.slug === author.slug).length,
+  postCount: posts.filter((post) => post.author && post.author.slug === author.slug).length,
 }));
 
 export function getPostBySlug(slug) {

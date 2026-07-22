@@ -8,9 +8,9 @@ import Logo from "./Logo";
 import { categories, posts } from "@/data/posts";
 
 const navItems = [
-  { label: "Latest", href: "/#latest" },
-  { label: "Charts", href: "/#charts" },
-  { label: "Topics", href: "/#topics" },
+  { label: "Latest", href: "/latest" },
+  { label: "Charts", href: "/charts" },
+  { label: "Topics", href: "/topics" },
   { label: "Write for us", href: "/write-for-us" },
   { label: "About", href: "/about" },
 ];

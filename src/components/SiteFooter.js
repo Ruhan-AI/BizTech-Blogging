@@ -3,11 +3,12 @@ import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Logo from "./Logo";
 
 const pageLinks = [
-  ["Latest insights", "/#latest"],
+  ["Latest insights", "/latest"],
+  ["Leaderboard Charts", "/charts"],
+  ["Topic Clusters", "/topics"],
   ["Write for us", "/write-for-us"],
   ["Submit Guest Post", "/submit"],
   ["About", "/about"],
-  ["Search", "/search"],
 ];
 
 const topicLinks = [
@@ -83,9 +84,11 @@ export default function SiteFooter() {
 
       <div className="container footer-bottom">
         <p>© 2020–2026 BizTech. Ideas deserve useful places to grow.</p>
-        <div>
+        <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+          <Link href="/editorial-policy">Editorial Policy</Link>
+          <Link href="/link-policy">Link Policy</Link>
           <Link href="/privacy-policy">Privacy</Link>
-          <Link href="/contributor-terms">Contributor terms</Link>
+          <Link href="/contributor-terms">Contributor Terms</Link>
         </div>
       </div>
     </footer>

@@ -1,0 +1,269 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  CONTRIBUTOR
+  EDITOR
+  MANAGING_EDITOR
+  ADMIN
+}
+
+enum SubmissionStatus {
+  DRAFT
+  SUBMITTED
+  SCREENING
+  CHANGES_REQUESTED
+  UNDER_REVIEW
+  APPROVED
+  SCHEDULED
+  PUBLISHED
+  REJECTED
+  ARCHIVED
+}
+
+enum LinkRelationship {
+  EDITORIAL
+  AUTHOR_WEBSITE
+  SPONSORED
+  AFFILIATE
+  USER_SUBMITTED
+  SOURCE_CITATION
+}
+
+model User {
+  id              String               @id @default(cuid())
+  email           String               @unique
+  name            String?
+  role            Role                 @default(CONTRIBUTOR)
+  emailVerifiedAt DateTime?
+  profile         ContributorProfile?
+  submissions     Submission[]
+  reviews         EditorialReview[]
+  auditLogs       AuditLog[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+}
+
+model ContributorProfile {
+  id                 String    @id @default(cuid())
+  userId             String    @unique
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug               String    @unique
+  headline           String?
+  bio                String?
+  company            String?
+  website            String?
+  linkedinUrl        String?
+  socialUrl          String?
+  location           String?
+  avatarUrl          String?
+  expertise          String[]  @default([])
+  verificationStatus String    @default("UNVERIFIED")
+  disclosures        String?
+  isPublic           Boolean   @default(true)
+  articles           Article[]
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model Submission {
+  id              String               @id @default(cuid())
+  secureToken     String               @unique @default(cuid())
+  contributorId   String?
+  contributor     User?                @relation(fields: [contributorId], references: [id], onDelete: SetNull)
+  fullName        String
+  email           String
+  roleCompany     String
+  website         String
+  postTitle       String
+  category        String
+  metaDescription String
+  focusKeywords   String
+  backlinkUrl     String?
+  anchorText      String?
+  gdriveImage     String?
+  draft           String               @db.Text
+  bio             String
+  status          SubmissionStatus     @default(SUBMITTED)
+  servicePlanId   String?
+  servicePlan     ServicePlan?         @relation(fields: [servicePlanId], references: [id])
+  article         Article?
+  revisions       SubmissionRevision[]
+  reviews         EditorialReview[]
+  outboundLinks   OutboundLink[]
+  payments        Payment[]
+  submittedAt     DateTime             @default(now())
+  decisionAt      DateTime?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+}
+
+model SubmissionRevision {
+  id                 String     @id @default(cuid())
+  submissionId       String
+  submission         Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  version            Int        @default(1)
+  contentJson        String     @db.Text
+  editorMessage      String?
+  contributorMessage String?
+  createdBy          String
+  createdAt          DateTime   @default(now())
+}
+
+model Article {
+  id              String             @id @default(cuid())
+  submissionId    String?            @unique
+  submission      Submission?        @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+  authorId        String
+  author          ContributorProfile @relation(fields: [authorId], references: [id])
+  categoryId      String
+  category        Category           @relation(fields: [categoryId], references: [id])
+  slug            String             @unique
+  title           String
+  excerpt         String
+  contentJson     String             @db.Text
+  contentHtml     String             @db.Text
+  featuredImageId String?
+  featuredImage   MediaAsset?        @relation(fields: [featuredImageId], references: [id])
+  status          SubmissionStatus   @default(PUBLISHED)
+  readingTime     String             @default("5 min read")
+  isFeatured      Boolean            @default(false)
+  isSponsored     Boolean            @default(false)
+  canonicalUrl    String?
+  topics          ArticleTopic[]
+  outboundLinks   OutboundLink[]
+  publishedAt     DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  shortName   String
+  description String
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Topic {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  name        String
+  description String
+  isIndexable Boolean        @default(true)
+  articles    ArticleTopic[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model ArticleTopic {
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  topicId   String
+  topic     Topic   @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, topicId])
+}
+
+model OutboundLink {
+  id                 String           @id @default(cuid())
+  articleId          String?
+  article            Article?         @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  submissionId       String?
+  submission         Submission?      @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  url                String
+  anchorText         String
+  relationship       LinkRelationship @default(EDITORIAL)
+  compensationStatus String           @default("UNPAID")
+  relValue           String           @default("nofollow")
+  editorApproved     Boolean          @default(false)
+  lastCheckedAt      DateTime?
+  lastStatusCode     Int?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+}
+
+model MediaAsset {
+  id             String    @id @default(cuid())
+  ownerId        String?
+  url            String
+  storageKey     String
+  mimeType       String
+  width          Int?
+  height         Int?
+  altText        String?
+  caption        String?
+  copyrightOwner String?
+  license        String?
+  sourceUrl      String?
+  articles       Article[]
+  createdAt      DateTime  @default(now())
+}
+
+model EditorialReview {
+  id            String           @id @default(cuid())
+  submissionId  String
+  submission    Submission       @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  editorId      String
+  editor        User             @relation(fields: [editorId], references: [id])
+  decision      SubmissionStatus
+  qualityScore  Int?
+  notes         String?
+  createdAt     DateTime         @default(now())
+}
+
+model ServicePlan {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  price       Float
+  currency    String       @default("USD")
+  features    String[]
+  isActive    Boolean      @default(true)
+  submissions Submission[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Payment {
+  id                String     @id @default(cuid())
+  submissionId      String
+  submission        Submission @relation(fields: [submissionId], references: [id])
+  userId            String?
+  provider          String     @default("stripe")
+  providerReference String?
+  amount            Float
+  currency          String     @default("USD")
+  status            String     @default("PENDING")
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+model Redirect {
+  id              String   @id @default(cuid())
+  sourcePath      String   @unique
+  destinationPath String
+  statusCode      Int      @default(301)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String?
+  metadata   String?  @db.Text
+  createdAt  DateTime @default(now())
+}

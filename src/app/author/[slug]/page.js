@@ -25,11 +25,23 @@ export async function generateMetadata({ params }) {
 
 export default async function AuthorPage({ params }) {
   const { slug } = await params;
-  const author = getAuthorBySlug(slug);
-
-  if (!author) notFound();
+  let author = getAuthorBySlug(slug);
 
   const authorPosts = getPostsByAuthor(slug);
+
+  if (!author && authorPosts.length > 0) {
+    const firstPostAuthor = authorPosts[0].author;
+    author = {
+      name: firstPostAuthor.name || "Guest Contributor",
+      slug: slug,
+      role: firstPostAuthor.role || "SEO Specialist & Contributor",
+      initials: firstPostAuthor.initials || "GP",
+      bio: firstPostAuthor.bio || "Verified contributor publishing business and technical insights.",
+      location: firstPostAuthor.location || "Remote",
+    };
+  }
+
+  if (!author) notFound();
 
   return (
     <main className={styles.page}>
