@@ -38,7 +38,7 @@ export default function ContributorTermsPage() {
           <p className={styles.legalIntro}>
             By submitting content, you confirm that you understand and agree to
             the terms below. If you do not agree, please do not submit the work.
-            Questions can be sent to <a href="mailto:info@biztechra.site">info@biztechra.site</a>.
+            Questions can be sent to <a href="mailto:biztechresourceanalyst@gmail.com">biztechresourceanalyst@gmail.com</a> or <a href="tel:+12148961780">+1 (214) 896-1780</a>.
           </p>
           <div className={styles.legalStack}>
             <article className={styles.legalBlock}>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Logo from "./Logo";
 
 const pageLinks = [
@@ -61,9 +61,13 @@ export default function SiteFooter() {
 
         <div className="footer-column footer-contact">
           <h2>Get in touch</h2>
-          <a href="mailto:info@biztechra.site" className="contact-card">
+          <a href="tel:+12148961780" className="contact-card">
+            <span><Phone size={17} aria-hidden="true" /></span>
+            <div><small>Phone / WhatsApp</small><strong>+1 (214) 896-1780</strong></div>
+          </a>
+          <a href="mailto:biztechresourceanalyst@gmail.com" className="contact-card">
             <span><Mail size={17} aria-hidden="true" /></span>
-            <div><small>Email</small><strong>info@biztechra.site</strong></div>
+            <div><small>Email</small><strong style={{ wordBreak: 'break-all', fontSize: '12px' }}>biztechresourceanalyst@gmail.com</strong></div>
           </a>
           <a
             href="https://maps.google.com/?q=4903+Westpark+Dr+Ste+304B,+Houston,+TX,+77063"

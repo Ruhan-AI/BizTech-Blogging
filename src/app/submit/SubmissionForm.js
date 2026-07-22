@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check, CircleCheck, Clock3, RotateCcw, ShieldCheck, Flame, CreditCard, Lock, Eye } from "lucide-react";
+import { ArrowRight, Check, CircleCheck, Clock3, RotateCcw, ShieldCheck, Flame, CreditCard, Lock, Eye, Phone, Mail } from "lucide-react";
 import { useState } from "react";
 import styles from "../../styles/inner-pages.module.css";
 
@@ -81,19 +81,6 @@ function validate(values) {
   
   if (!values.bio.trim()) {
     errors.bio = "Add a short author biography.";
-  }
-
-  // Validate simulated credit card if paid plan is chosen
-  if (values.planSelected !== "free") {
-    if (!values.cardNumber.replace(/\s/g, "").match(/^\d{16}$/)) {
-      errors.cardNumber = "Enter a valid 16-digit card number.";
-    }
-    if (!values.cardExpiry.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) {
-      errors.cardExpiry = "Enter expiry in MM/YY format.";
-    }
-    if (!values.cardCvc.match(/^\d{3}$/)) {
-      errors.cardCvc = "Enter a 3-digit CVC security code.";
-    }
   }
 
   if (!values.terms) errors.terms = "Confirm that this guest post complies with our SEO link guidelines.";
@@ -193,6 +180,34 @@ export default function SubmissionForm({ categories }) {
               </code>
               The post is active for <strong>{values.planSelected === "free" ? "7 Days (Free Plan)" : values.planSelected === "3months" ? "3 Months (Premium)" : values.planSelected === "6months" ? "6 Months (Professional)" : "12 Months (Authority)"}</strong>.
             </p>
+
+            {values.planSelected !== "free" && (
+              <div style={{
+                margin: '20px 0',
+                padding: '20px',
+                borderRadius: '12px',
+                background: 'rgba(139, 92, 246, 0.12)',
+                border: '1px solid rgba(139, 92, 246, 0.4)',
+                textAlign: 'left'
+              }}>
+                <h4 style={{ margin: '0 0 8px 0', color: '#fff', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Phone size={16} style={{ color: 'var(--accent-3)' }} /> Payment & Plan Activation Instructions
+                </h4>
+                <p style={{ margin: 0, fontSize: '13px', lineHeight: '1.6', color: 'rgba(255,255,255,0.9)' }}>
+                  You selected the <strong>{values.planSelected === "3months" ? "3 Months ($49)" : values.planSelected === "6months" ? "6 Months ($89)" : "12 Months ($149)"}</strong> plan.
+                  To complete your payment or extend your validation period, please contact us directly:
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '12px' }}>
+                  <a href="tel:+12148961780" style={{ padding: '8px 14px', borderRadius: '8px', background: 'var(--accent-3)', color: '#05050d', fontWeight: 'bold', fontSize: '13px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <Phone size={14} /> Call / WhatsApp: +1 (214) 896-1780
+                  </a>
+                  <a href="mailto:biztechresourceanalyst@gmail.com" style={{ padding: '8px 14px', borderRadius: '8px', background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 'bold', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <Mail size={14} /> Email: biztechresourceanalyst@gmail.com
+                  </a>
+                </div>
+              </div>
+            )}
+
             <div className={`${styles.heroActions} ${styles.successActions}`}>
               <Link className={styles.primaryButton} href={`/insights/${createdSlug}`} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Eye size={16} /> View Written Post Page
@@ -450,52 +465,47 @@ export default function SubmissionForm({ categories }) {
               </div>
             </div>
 
-            {/* Credit card fields if paid */}
-            {values.planSelected !== "free" && (
-              <div 
-                style={{ 
-                  marginTop: '24px', padding: '24px', borderRadius: '16px', 
-                  background: 'rgba(255,255,255,0.02)', border: '1px solid var(--line)',
-                  animation: 'drawer-in 0.25s ease both'
-                }}
-              >
-                <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 16px 0', fontSize: '15px', color: '#fff' }}>
-                  <Lock size={16} style={{ color: 'var(--accent-3)' }} /> Secure Sandbox Checkout
-                </h3>
-                <div className={styles.formRow}>
-                  <Field
-                    id="cardNumber"
-                    label="Credit card number *"
-                    value={values.cardNumber}
-                    error={errors.cardNumber}
-                    onChange={updateField}
-                    placeholder="4111 2222 3333 4444"
-                  />
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    <Field
-                      id="cardExpiry"
-                      label="Expiry *"
-                      value={values.cardExpiry}
-                      error={errors.cardExpiry}
-                      onChange={updateField}
-                      placeholder="MM/YY"
-                    />
-                    <Field
-                      id="cardCvc"
-                      label="CVC *"
-                      type="password"
-                      value={values.cardCvc}
-                      error={errors.cardCvc}
-                      onChange={updateField}
-                      placeholder="123"
-                    />
-                  </div>
-                </div>
-                <p style={{ margin: '12px 0 0 0', fontSize: '12px', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <CreditCard size={13} /> Secure demo transaction. No charges will be processed.
-                </p>
+            {/* Direct Contact Payment Info Box */}
+            <div 
+              style={{ 
+                marginTop: '24px', padding: '20px 24px', borderRadius: '16px', 
+                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(0, 216, 189, 0.08) 100%)', 
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                animation: 'drawer-in 0.25s ease both'
+              }}
+            >
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', fontSize: '15px', color: '#fff' }}>
+                <Phone size={16} style={{ color: 'var(--accent-3)' }} /> Payment & Direct Plan Activation
+              </h3>
+              <p style={{ margin: '0 0 14px 0', fontSize: '13px', lineHeight: '1.6', color: 'rgba(255,255,255,0.9)' }}>
+                For paid plan processing ($49 / $89 / $149) or to extend your post validity, please contact us directly via phone or email:
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                <a 
+                  href="tel:+12148961780" 
+                  style={{ 
+                    display: 'inline-flex', alignItems: 'center', gap: '8px', 
+                    padding: '10px 16px', borderRadius: '10px', 
+                    background: 'var(--accent-3)', color: '#05050d', 
+                    fontWeight: 'bold', fontSize: '13px', textDecoration: 'none' 
+                  }}
+                >
+                  <Phone size={15} /> Call / WhatsApp: +1 (214) 896-1780
+                </a>
+                <a 
+                  href="mailto:biztechresourceanalyst@gmail.com" 
+                  style={{ 
+                    display: 'inline-flex', alignItems: 'center', gap: '8px', 
+                    padding: '10px 16px', borderRadius: '10px', 
+                    background: 'rgba(255,255,255,0.08)', color: '#fff', 
+                    fontWeight: 'bold', fontSize: '13px', textDecoration: 'none', 
+                    border: '1px solid rgba(255,255,255,0.2)' 
+                  }}
+                >
+                  <Mail size={15} /> Email: biztechresourceanalyst@gmail.com
+                </a>
               </div>
-            )}
+            </div>
 
             <div className={styles.checkboxField} style={{ marginTop: '24px' }}>
               <input
@@ -516,7 +526,7 @@ export default function SubmissionForm({ categories }) {
 
             <div className={styles.formActions}>
               <button className={styles.submitButton} type="submit" disabled={submitting}>
-                {submitting ? "Writing Dynamic Next.js Files..." : values.planSelected === "free" ? "Publish Guest Post (Free) " : `Complete Payment & Publish ($${values.planSelected === "3months" ? "49" : values.planSelected === "6months" ? "89" : "149"})`}
+                {submitting ? "Writing Dynamic Next.js Files..." : values.planSelected === "free" ? "Publish Guest Post (7 Days Free)" : `Submit Draft & Select ${values.planSelected === "3months" ? "3 Months ($49)" : values.planSelected === "6months" ? "6 Months ($89)" : "12 Months ($149)"}`}
                 <ArrowRight size={17} aria-hidden="true" />
               </button>
             </div>
@@ -524,6 +534,19 @@ export default function SubmissionForm({ categories }) {
         </div>
 
         <aside className={styles.formAside} aria-label="SEO Guidelines">
+          <div className={styles.infoCard} style={{ border: '1px solid rgba(0, 216, 189, 0.3)' }}>
+            <Phone className={styles.infoCardIcon} size={24} style={{ color: 'var(--accent-3)' }} aria-hidden="true" />
+            <h3>Direct Payment Support</h3>
+            <p style={{ fontSize: '13px', margin: '0 0 10px 0', lineHeight: '1.5' }}>
+              To finalize payment for paid guest posts or request custom duration extensions, contact us directly:
+            </p>
+            <a href="tel:+12148961780" style={{ display: 'block', color: 'var(--accent-3)', fontWeight: 'bold', fontSize: '13px', textDecoration: 'underline', marginBottom: '6px' }}>
+              📞 +1 (214) 896-1780
+            </a>
+            <a href="mailto:biztechresourceanalyst@gmail.com" style={{ display: 'block', color: 'var(--accent-3)', fontWeight: 'bold', fontSize: '12px', textDecoration: 'underline', wordBreak: 'break-all' }}>
+              ✉️ biztechresourceanalyst@gmail.com
+            </a>
+          </div>
           <div className={styles.infoCard}>
             <ShieldCheck className={styles.infoCardIcon} size={25} style={{ color: 'var(--accent-3)' }} aria-hidden="true" />
             <h3>Dynamic File Output</h3>

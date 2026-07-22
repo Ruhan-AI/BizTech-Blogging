@@ -21,9 +21,9 @@ export default function Page() {
     logo: "https://blog.biztechra.site/icon.svg",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "",
+      telephone: "+1-214-896-1780",
       contactType: "customer service",
-      email: "info@biztechra.site",
+      email: "biztechresourceanalyst@gmail.com",
     },
   };
 

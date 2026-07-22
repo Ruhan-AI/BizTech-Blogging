@@ -121,7 +121,7 @@ export default function PrivacyPolicyPage() {
               <h2>9. Contact and updates</h2>
               <p>
                 Questions or privacy requests may be sent to
-                {" "}<a href="mailto:info@biztechra.site">info@biztechra.site</a>.
+                {" "}<a href="mailto:biztechresourceanalyst@gmail.com">biztechresourceanalyst@gmail.com</a> or via phone at <a href="tel:+12148961780">+1 (214) 896-1780</a>.
                 We may update this policy as the service changes; the effective date
                 at the top identifies the latest version.
               </p>
