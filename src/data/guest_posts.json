@@ -29,5 +29,39 @@
     "metaDescription": "A complete guide on compounding guest posting strategies for SaaS companies to scale search traffic.",
     "focusKeywords": "SEO, backlinks, ranking",
     "isGuestPost": true
+  },
+  {
+    "slug": "a-comprehensive-guide-to-qa-automation-0442",
+    "secureToken": "sub_token_1784736820442_7iantsk",
+    "title": "A Comprehensive Guide to QA Automation",
+    "excerpt": "A complete guide to QA automation best practices, setups, and integration.",
+    "category": "SEO & Digital Growth",
+    "categorySlug": "seo-digital-growth",
+    "date": "2026-07-22",
+    "readTime": "3 min read",
+    "author": {
+      "name": "Test User",
+      "slug": "test-user",
+      "role": "QA Engineer, TestCorp",
+      "initials": "TU",
+      "bio": "Test User is a senior QA automation engineer."
+    },
+    "gradient": "linear-gradient(135deg, #090909 0%, #28223a 58%, #a98aff 145%)",
+    "featured": false,
+    "tags": [
+      "QA",
+      "testing",
+      "automation"
+    ],
+    "planSelected": "free",
+    "expiryDate": "2026-07-29",
+    "gdriveImage": "",
+    "backlinkUrl": "https://testcorp.com/blog",
+    "anchorText": "best QA practices",
+    "metaDescription": "A complete guide to QA automation best practices, setups, and integration.",
+    "focusKeywords": "QA, testing, automation",
+    "draftContent": "This is a test article draft. QA automation is essential for modern software development cycles. We will cover unit testing, integration testing, end-to-end testing, and continuous integration. Writing tests ensures code reliability and improves delivery velocity.",
+    "status": "published",
+    "isGuestPost": true
   }
 ]

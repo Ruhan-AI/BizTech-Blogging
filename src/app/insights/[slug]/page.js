@@ -53,6 +53,25 @@ export default async function InsightPage({ params }) {
     ),
   ].slice(0, 3);
 
+  const contentSections = Array.isArray(post.content)
+    ? post.content
+    : typeof post.draftContent === "string" || typeof post.content === "string"
+    ? (post.draftContent || post.content)
+        .split("\n\n")
+        .filter(Boolean)
+        .map((para, i) => ({
+          heading: i === 0 ? "Overview & Strategy" : `Key Insights Part ${i + 1}`,
+          paragraphs: [para],
+        }))
+    : [
+        {
+          heading: "Overview & Strategy",
+          paragraphs: [post.excerpt || post.title],
+        },
+      ];
+
+  const postTags = Array.isArray(post.tags) ? post.tags : [post.category || "GuestPost"];
+
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -72,7 +91,7 @@ export default async function InsightPage({ params }) {
       url: "https://www.biztechra.site/",
     },
     articleSection: post.category,
-    keywords: post.tags.join(", "),
+    keywords: postTags.join(", "),
   };
 
   return (
@@ -119,7 +138,7 @@ export default async function InsightPage({ params }) {
         <article className={styles.articleBody}>
           <p>{post.excerpt}</p>
 
-          {post.content.map((section) => {
+          {contentSections.map((section) => {
             const sectionId = slugify(section.heading);
             return (
               <section className={styles.articleSection} id={sectionId} key={section.heading}>
@@ -137,7 +156,7 @@ export default async function InsightPage({ params }) {
           })}
 
           <div className={styles.tagList} aria-label="Article topics">
-            {post.tags.map((tag) => <span className={styles.tag} key={tag}>{tag}</span>)}
+            {postTags.map((tag) => <span className={styles.tag} key={tag}>{tag}</span>)}
           </div>
 
           <div className={styles.authorBox}>
@@ -154,7 +173,7 @@ export default async function InsightPage({ params }) {
         <aside className={styles.toc} aria-label="Article navigation">
           <h2>In this insight</h2>
           <ol className={styles.tocList}>
-            {post.content.map((section) => (
+            {contentSections.map((section) => (
               <li key={section.heading}>
                 <a href={`#${slugify(section.heading)}`}>{section.heading}</a>
               </li>

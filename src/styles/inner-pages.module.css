@@ -1048,14 +1048,22 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  margin-top: 1.15rem;
+}
+
+.formRow:first-child {
+  margin-top: 0;
+}
+
+.formRow .field {
+  margin-top: 0 !important;
 }
 
 .field {
   margin-top: 1.15rem;
 }
 
-.field:first-child,
-.formRow:first-child .field {
+.field:first-child {
   margin-top: 0;
 }
 
