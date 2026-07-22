@@ -14,6 +14,9 @@ import {
   TrendingUp,
   Users,
   Flame,
+  ShieldCheck,
+  Zap,
+  Layers,
 } from "lucide-react";
 import { categories, posts, authors } from "@/data/posts";
 import PostCard from "./PostCard";
@@ -65,6 +68,7 @@ export default function HomePage() {
 
   return (
     <>
+      {/* 3D Hero Section */}
       <section className="home-hero">
         <div className="container hero-grid">
           <div className="hero-copy">
@@ -77,7 +81,7 @@ export default function HomePage() {
               <span className="gradient-text">Growth with direction.</span>
             </h1>
             <p className="hero-lead" data-hero-reveal>
-              A curated editorial platform where founders, marketers, and developers share experience-led insights and field playbooks.
+              A curated editorial publication and guest-contribution platform where founders, marketers, and developers share experience-led insights and field playbooks.
             </p>
             <div className="hero-actions" data-hero-reveal>
               <Link className="button button-primary button-large" href="/latest">
@@ -89,13 +93,35 @@ export default function HomePage() {
             </div>
             <div className="hero-proof" data-hero-reveal>
               <div><CheckCircle2 size={18} /><span><strong>Human-reviewed</strong><small>Every contribution</small></span></div>
-              <div><Users size={18} /><span><strong>Verified experts</strong><small>Across six pillars</small></span></div>
-              <div><BookOpen size={18} /><span><strong>Useful by design</strong><small>No empty filler</small></span></div>
+              <div><Users size={18} /><span><strong>Verified experts</strong><small>Across 6 pillars</small></span></div>
+              <div><BookOpen size={18} /><span><strong>Useful by design</strong><small>No empty theory</small></span></div>
             </div>
           </div>
 
           <div className="hero-feature-card" style={{ padding: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <KnowledgeOrb />
+          </div>
+        </div>
+      </section>
+
+      {/* Editorial Proof Stats Bar */}
+      <section className="section" style={{ padding: "2rem 0", background: "rgba(255,255,255,0.015)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <div className="container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "20px", textAlign: "center" }}>
+          <div>
+            <strong style={{ fontSize: "28px", color: "var(--accent-3)", display: "block" }}>100%</strong>
+            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Human Editorial Review</span>
+          </div>
+          <div>
+            <strong style={{ fontSize: "28px", color: "#fff", display: "block" }}>6 Pillars</strong>
+            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Knowledge Clusters</span>
+          </div>
+          <div>
+            <strong style={{ fontSize: "28px", color: "var(--accent-2)", display: "block" }}>24–48h</strong>
+            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Review Turnaround</span>
+          </div>
+          <div>
+            <strong style={{ fontSize: "28px", color: "#fff", display: "block" }}>7 Days</strong>
+            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Free Validation Period</span>
           </div>
         </div>
       </section>
@@ -139,6 +165,62 @@ export default function HomePage() {
               </Link>
             </div>
           </article>
+        </div>
+      </section>
+
+      {/* 6 Knowledge Pillars Grid Section */}
+      <section className="section">
+        <div className="container">
+          <div className="section-header">
+            <div>
+              <p className="dark-eyebrow">Knowledge Systems</p>
+              <h2>Explore Editorial Pillars</h2>
+            </div>
+            <p>Deep tactical playbooks categorized across 6 key discipline areas.</p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px", marginTop: "24px" }}>
+            {categories.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/category/${cat.slug}`}
+                style={{
+                  padding: "24px",
+                  borderRadius: "16px",
+                  background: "rgba(255, 255, 255, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  textDecoration: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  transition: "transform 0.2s ease, border-color 0.2s ease",
+                }}
+              >
+                <div>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      padding: "4px 10px",
+                      borderRadius: "12px",
+                      background: "rgba(139, 92, 246, 0.15)",
+                      color: "var(--accent-3)",
+                      fontSize: "11px",
+                      fontWeight: "bold",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {cat.shortName}
+                  </span>
+                  <h3 style={{ color: "#fff", fontSize: "18px", margin: "0 0 8px 0" }}>{cat.name}</h3>
+                  <p style={{ color: "var(--muted)", fontSize: "13px", lineHeight: "1.5", margin: 0 }}>{cat.description}</p>
+                </div>
+                <div style={{ marginTop: "20px", display: "flex", alignItems: "center", justifyContent: "space-between", color: "var(--accent-3)", fontSize: "13px", fontWeight: "bold" }}>
+                  <span>Browse pillar</span>
+                  <ArrowRight size={16} />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -275,6 +357,52 @@ export default function HomePage() {
             <Link className="button button-glass" href="/latest">
               View all insights feed <ArrowRight size={16} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Editorial Standards & Disclosure Trust Card */}
+      <section className="section">
+        <div className="container">
+          <div
+            style={{
+              padding: "40px",
+              borderRadius: "24px",
+              background: "linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(0, 216, 189, 0.04) 100%)",
+              border: "1px solid rgba(139, 92, 246, 0.25)",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "30px",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <span className="eyebrow-pill" style={{ marginBottom: "12px" }}>
+                <ShieldCheck size={14} /> Transparent Link Policy
+              </span>
+              <h2 style={{ color: "#fff", fontSize: "26px", margin: "8px 0" }}>Built for Strategic Value, Not Spam</h2>
+              <p style={{ color: "var(--muted)", fontSize: "14px", lineHeight: "1.6", margin: 0 }}>
+                Every guest post and reference link undergoes strict human screening. Free guest posts include 7-day validation with optional 3, 6, or 12-month extensions.
+              </p>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "#fff", fontSize: "14px" }}>
+                <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Free 7-Day Contribution Validation
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "#fff", fontSize: "14px" }}>
+                <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Explicit `rel=&quot;sponsored&quot;` / `rel=&quot;nofollow&quot;` Qualifications
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "#fff", fontSize: "14px" }}>
+                <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Direct Phone & Email Support for Plan Extensions
+              </div>
+
+              <div style={{ marginTop: "10px" }}>
+                <Link className="button button-primary" href="/submit" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                  Submit Guest Post <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
