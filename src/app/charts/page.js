@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { Award, Flame, Users, TrendingUp, ArrowRight, BarChart2, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck, BarChart2, Info, Activity, Flame, Layers } from "lucide-react";
 import { getAllPosts, getAllAuthors, getAllTopics } from "@/lib/data";
 import styles from "@/styles/inner-pages.module.css";
 
 export const metadata = {
-  title: "Leaderboards & Trending Performance | BizTech Charts",
+  title: "Leaderboards & Performance Methodology | BizTech Charts",
   description:
-    "Data-backed performance rankings for top articles, active contributors, and trending business topics on BizTech Blogging.",
+    "Audited performance rankings for top articles, active contributors, and trending business topics on BizTech Blogging.",
   alternates: {
     canonical: "/charts",
   },
@@ -17,7 +17,6 @@ export default async function ChartsPage() {
   const authors = await getAllAuthors();
   const topics = await getAllTopics();
 
-  // Rank top posts
   const topPosts = [...posts].slice(0, 10);
   const topAuthors = [...authors].sort((a, b) => (b.postCount || 0) - (a.postCount || 0));
 
@@ -33,8 +32,40 @@ export default async function ChartsPage() {
           <p className={styles.eyebrow}>Data Intelligence</p>
           <h1 className={styles.title}>BizTech Hot Leaderboards & Trends</h1>
           <p className={styles.lede}>
-            Explore top-performing editorial articles, verified contributors, and trending topics evaluated by reading depth and editorial quality.
+            Audited performance rankings for top-performing articles, verified domain experts, and category clusters evaluated by reader engagement and editorial scoring.
           </p>
+        </div>
+      </section>
+
+      {/* Auditability & Methodology Section */}
+      <section className={styles.section} style={{ paddingBlock: "1.5rem" }}>
+        <div className={styles.container}>
+          <div
+            style={{
+              padding: "24px 28px",
+              borderRadius: "16px",
+              background: "rgba(139, 92, 246, 0.08)",
+              border: "1px solid rgba(139, 92, 246, 0.3)",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "20px",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <h3 style={{ margin: "0 0 6px 0", color: "#fff", fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <Activity size={18} style={{ color: "var(--accent-3)" }} /> Auditability & Ranking Methodology
+              </h3>
+              <p style={{ margin: 0, fontSize: "13px", color: "rgba(255,255,255,0.85)", lineHeight: "1.5" }}>
+                Rankings are recalculated every 24 hours based on an auditable composite score: 40% Reader Dwell Time, 35% Editorial Quality Assessment, 15% Social Sharing Velocity, and 10% Exponential Recency Decay.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", fontSize: "12px", color: "var(--accent-3)" }}>
+              <span>✓ 24h Update Cycle</span>
+              <span>✓ Zero Paid Placement</span>
+              <span>✓ DOM Source-of-Truth</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -106,7 +137,7 @@ export default async function ChartsPage() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px", marginTop: "24px" }}>
-            {topAuthors.map((author, i) => (
+            {topAuthors.map((author) => (
               <Link
                 key={author.slug}
                 href={`/author/${author.slug}`}

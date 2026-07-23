@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check, CircleCheck, Clock3, RotateCcw, ShieldCheck, Flame, CreditCard, Lock, Eye, Phone, Mail } from "lucide-react";
+import { ArrowRight, Check, CircleCheck, Clock3, RotateCcw, ShieldCheck, Phone, Mail, FileText, Lock } from "lucide-react";
 import { useState } from "react";
 import styles from "../../styles/inner-pages.module.css";
 
@@ -17,12 +17,9 @@ const initialValues = {
   backlinkUrl: "",
   anchorText: "",
   gdriveImage: "",
-  planSelected: "free",
+  planSelected: "community",
   draft: "",
   bio: "",
-  cardNumber: "",
-  cardExpiry: "",
-  cardCvc: "",
   companyFax: "", // honeypot
   terms: false,
 };
@@ -70,7 +67,7 @@ function validate(values) {
   }
 
   if (values.gdriveImage && !isValidUrl(values.gdriveImage)) {
-    errors.gdriveImage = "Enter a valid Google Drive storage link or preview URL.";
+    errors.gdriveImage = "Enter a valid Google Drive image link or asset URL.";
   }
 
   if (!values.draft.trim()) {
@@ -83,7 +80,7 @@ function validate(values) {
     errors.bio = "Add a short author biography.";
   }
 
-  if (!values.terms) errors.terms = "Confirm that this guest post complies with our SEO link guidelines.";
+  if (!values.terms) errors.terms = "Confirm that this proposal complies with our editorial guidelines.";
 
   return errors;
 }
@@ -93,7 +90,7 @@ export default function SubmissionForm({ categories }) {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [createdSlug, setCreatedSlug] = useState("");
+  const [submissionToken, setSubmissionToken] = useState("");
 
   function updateField(event) {
     const { name, value, type, checked } = event.target;
@@ -143,11 +140,11 @@ export default function SubmissionForm({ categories }) {
 
       const result = await response.json();
       if (result.success) {
-        setCreatedSlug(result.slug);
+        setSubmissionToken(result.token);
         setSubmitted(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        alert("Server failed to write files: " + result.error);
+        alert("Submission failed: " + result.error);
       }
     } catch (err) {
       alert("Submission request failed: " + err.message);
@@ -160,7 +157,7 @@ export default function SubmissionForm({ categories }) {
     setValues(initialValues);
     setErrors({});
     setSubmitted(false);
-    setCreatedSlug("");
+    setSubmissionToken("");
   }
 
   if (submitted) {
@@ -171,49 +168,43 @@ export default function SubmissionForm({ categories }) {
             <div className={styles.successIcon} style={{ background: 'var(--accent-3)' }}>
               <CircleCheck size={28} aria-hidden="true" />
             </div>
-            <p className={styles.darkEyebrow} style={{ color: 'var(--accent-3)' }}>Submission & File Write Complete</p>
-            <h1>SEO Guest Post Successfully Created!</h1>
+            <p className={styles.darkEyebrow} style={{ color: 'var(--accent-3)' }}>Submission Received & Queued</p>
+            <h1>Proposal Successfully Submitted for Review!</h1>
             <p style={{ marginBlock: '15px 25px', lineHeight: '1.6' }}>
-              Your guest post has been successfully written to the local filesystem. A physical folder was generated at 
-              <code style={{ display: 'block', background: 'rgba(255,255,255,0.06)', padding: '8px 12px', borderRadius: '8px', marginBlock: '8px', color: 'var(--accent-3)' }}>
-                src/app/insights/{createdSlug}/page.js
+              Your guest article proposal has been safely logged into our database moderation queue. Your secure tracking token is:
+              <code style={{ display: 'block', background: 'rgba(255,255,255,0.06)', padding: '10px 14px', borderRadius: '8px', marginBlock: '10px', color: 'var(--accent-3)', fontSize: '14px', wordBreak: 'break-all' }}>
+                {submissionToken}
               </code>
-              The post is active for <strong>{values.planSelected === "free" ? "7 Days (Free Plan)" : values.planSelected === "3months" ? "3 Months (Premium)" : values.planSelected === "6months" ? "6 Months (Professional)" : "12 Months (Authority)"}</strong>.
+              Our editorial team will review your proposal against our publication standards and notify you via <strong>{values.email}</strong>.
             </p>
 
-            {values.planSelected !== "free" && (
-              <div style={{
-                margin: '20px 0',
-                padding: '20px',
-                borderRadius: '12px',
-                background: 'rgba(139, 92, 246, 0.12)',
-                border: '1px solid rgba(139, 92, 246, 0.4)',
-                textAlign: 'left'
-              }}>
-                <h4 style={{ margin: '0 0 8px 0', color: '#fff', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Phone size={16} style={{ color: 'var(--accent-3)' }} /> Payment & Plan Activation Instructions
-                </h4>
-                <p style={{ margin: 0, fontSize: '13px', lineHeight: '1.6', color: 'rgba(255,255,255,0.9)' }}>
-                  You selected the <strong>{values.planSelected === "3months" ? "3 Months ($49)" : values.planSelected === "6months" ? "6 Months ($89)" : "12 Months ($149)"}</strong> plan.
-                  To complete your payment or extend your validation period, please contact us directly:
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '12px' }}>
-                  <a href="tel:+12148961780" style={{ padding: '8px 14px', borderRadius: '8px', background: 'var(--accent-3)', color: '#05050d', fontWeight: 'bold', fontSize: '13px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                    <Phone size={14} /> Call / WhatsApp: +1 (214) 896-1780
-                  </a>
-                  <a href="mailto:biztechresourceanalyst@gmail.com" style={{ padding: '8px 14px', borderRadius: '8px', background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 'bold', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                    <Mail size={14} /> Email: biztechresourceanalyst@gmail.com
-                  </a>
-                </div>
+            <div style={{
+              margin: '20px 0',
+              padding: '20px',
+              borderRadius: '12px',
+              background: 'rgba(139, 92, 246, 0.12)',
+              border: '1px solid rgba(139, 92, 246, 0.4)',
+              textAlign: 'left'
+            }}>
+              <h4 style={{ margin: '0 0 8px 0', color: '#fff', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Phone size={16} style={{ color: 'var(--accent-3)' }} /> Editorial Contact & Assistance
+              </h4>
+              <p style={{ margin: 0, fontSize: '13px', lineHeight: '1.6', color: 'rgba(255,255,255,0.9)' }}>
+                Have questions regarding your submission status or editorial review timelines? Contact our desk directly:
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '12px' }}>
+                <a href="tel:+12148961780" style={{ padding: '8px 14px', borderRadius: '8px', background: 'var(--accent-3)', color: '#05050d', fontWeight: 'bold', fontSize: '13px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <Phone size={14} /> Call / WhatsApp: +1 (214) 896-1780
+                </a>
+                <a href="mailto:biztechresourceanalyst@gmail.com" style={{ padding: '8px 14px', borderRadius: '8px', background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 'bold', fontSize: '13px', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <Mail size={14} /> Email: biztechresourceanalyst@gmail.com
+                </a>
               </div>
-            )}
+            </div>
 
             <div className={`${styles.heroActions} ${styles.successActions}`}>
-              <Link className={styles.primaryButton} href={`/insights/${createdSlug}`} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Eye size={16} /> View Written Post Page
-              </Link>
-              <button className={styles.secondaryButton} type="button" onClick={startAnother}>
-                <RotateCcw size={16} aria-hidden="true" /> Post Another Guest Post
+              <button className={styles.primaryButton} type="button" onClick={startAnother}>
+                <RotateCcw size={16} aria-hidden="true" /> Submit Another Proposal
               </button>
             </div>
           </div>
@@ -228,8 +219,8 @@ export default function SubmissionForm({ categories }) {
         <div className={styles.formCard}>
           <div className={styles.formHeading}>
             <div>
-              <h2>SEO Specialist Guest Posting</h2>
-              <p>Promote your target site via guest posts. Instantly compiles as a physical Next.js page.</p>
+              <h2>Guest Contribution Proposal</h2>
+              <p>Submit your article for human editorial review. All submissions are moderated for quality and accuracy.</p>
             </div>
             <span className={styles.requiredNote}>* Required</span>
           </div>
@@ -280,7 +271,7 @@ export default function SubmissionForm({ categories }) {
                 error={errors.roleCompany}
                 onChange={updateField}
                 autoComplete="organization-title"
-                placeholder="SEO Specialist, Growth Labs"
+                placeholder="SEO Lead, Growth Labs"
               />
               <Field
                 id="website"
@@ -294,24 +285,24 @@ export default function SubmissionForm({ categories }) {
               />
             </div>
 
-            {/* SEO Specific Parameters */}
+            {/* Content Parameters */}
             <div className={styles.formRow}>
               <Field
                 id="backlinkUrl"
-                label="Target Backlink URL (Link-building) *"
+                label="Primary Citation / Reference URL (Optional)"
                 type="url"
                 value={values.backlinkUrl}
                 error={errors.backlinkUrl}
                 onChange={updateField}
-                placeholder="https://mysite.com/landing-page"
+                placeholder="https://mysite.com/research-report"
               />
               <Field
                 id="anchorText"
-                label="Anchor Text (Link keyword) *"
+                label="Citation Anchor Text (Optional)"
                 value={values.anchorText}
                 error={errors.anchorText}
                 onChange={updateField}
-                placeholder="advanced organic SEO tools"
+                placeholder="2026 SaaS Growth Benchmark"
               />
             </div>
 
@@ -326,7 +317,7 @@ export default function SubmissionForm({ categories }) {
               />
               <Field
                 id="gdriveImage"
-                label="Google Drive Image Storage URL"
+                label="Image / Asset Link (Optional)"
                 type="url"
                 value={values.gdriveImage}
                 error={errors.gdriveImage}
@@ -337,7 +328,7 @@ export default function SubmissionForm({ categories }) {
 
             <Field
               id="postTitle"
-              label="Article title *"
+              label="Proposed article title *"
               value={values.postTitle}
               error={errors.postTitle}
               onChange={updateField}
@@ -374,21 +365,21 @@ export default function SubmissionForm({ categories }) {
                 value={values.metaDescription}
                 onChange={updateField}
                 maxLength={180}
-                placeholder="Brief summary of article that displays in Google search results (50-160 chars)."
+                placeholder="Brief summary of article that displays in search snippets (50-160 chars)."
               />
               {errors.metaDescription && <p className={styles.error}>{errors.metaDescription}</p>}
             </div>
 
             {/* Article Content */}
             <div className={styles.field}>
-              <label className={styles.label} htmlFor="draft">Written draft content *</label>
+              <label className={styles.label} htmlFor="draft">Article draft content *</label>
               <textarea
                 className={`${styles.textarea} ${styles.draftTextarea} ${errors.draft ? styles.invalid : ""}`}
                 id="draft"
                 name="draft"
                 value={values.draft}
                 onChange={updateField}
-                placeholder="Paste the full article content here. Use double line breaks to separate paragraphs."
+                placeholder="Paste the full article content here. Use double line breaks for paragraph separation."
               />
               {errors.draft && <p className={styles.error}>{errors.draft}</p>}
             </div>
@@ -402,65 +393,52 @@ export default function SubmissionForm({ categories }) {
                 maxLength={200}
                 value={values.bio}
                 onChange={updateField}
-                placeholder="A brief background about your expert domain."
+                placeholder="A brief background highlighting your domain expertise."
               />
               {errors.bio && <p className={styles.error}>{errors.bio}</p>}
             </div>
 
-            {/* validation plans / pricing */}
+            {/* Editorial Review Tiers */}
             <div className={styles.field} style={{ marginTop: '30px' }}>
-              <label className={styles.label}>Select validation period plan *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px', marginTop: '10px' }}>
+              <label className={styles.label}>Select Editorial Review Tier *</label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginTop: '10px' }}>
                 <div 
-                  onClick={() => handlePlanSelect("free")}
+                  onClick={() => handlePlanSelect("community")}
                   style={{ 
-                    border: values.planSelected === "free" ? "2px solid var(--accent-3)" : "1px solid var(--line)",
-                    background: values.planSelected === "free" ? "rgba(0, 216, 189, 0.05)" : "rgba(255,255,255,0.01)",
+                    border: values.planSelected === "community" ? "2px solid var(--accent-3)" : "1px solid var(--line)",
+                    background: values.planSelected === "community" ? "rgba(0, 216, 189, 0.05)" : "rgba(255,255,255,0.01)",
                     borderRadius: '12px', padding: '16px', cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s ease'
                   }}
                 >
-                  <strong style={{ display: 'block', fontSize: '15px' }}>7 Days Free</strong>
-                  <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>Free Post</span>
-                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#fff', display: 'block', marginTop: '8px' }}>$0</span>
+                  <strong style={{ display: 'block', fontSize: '15px' }}>Community Queue</strong>
+                  <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>Standard Review</span>
+                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#fff', display: 'block', marginTop: '8px' }}>Free</span>
                 </div>
                 
                 <div 
-                  onClick={() => handlePlanSelect("3months")}
+                  onClick={() => handlePlanSelect("express")}
                   style={{ 
-                    border: values.planSelected === "3months" ? "2px solid var(--accent)" : "1px solid var(--line)",
-                    background: values.planSelected === "3months" ? "rgba(139, 92, 246, 0.05)" : "rgba(255,255,255,0.01)",
+                    border: values.planSelected === "express" ? "2px solid var(--accent)" : "1px solid var(--line)",
+                    background: values.planSelected === "express" ? "rgba(139, 92, 246, 0.05)" : "rgba(255,255,255,0.01)",
                     borderRadius: '12px', padding: '16px', cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s ease'
                   }}
                 >
-                  <strong style={{ display: 'block', fontSize: '15px' }}>3 Months</strong>
-                  <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>Premium</span>
+                  <strong style={{ display: 'block', fontSize: '15px' }}>Express Review</strong>
+                  <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>48h Fast-Track</span>
                   <span style={{ fontSize: '16px', fontWeight: '900', color: '#fff', display: 'block', marginTop: '8px' }}>$49</span>
                 </div>
 
                 <div 
-                  onClick={() => handlePlanSelect("6months")}
+                  onClick={() => handlePlanSelect("featured")}
                   style={{ 
-                    border: values.planSelected === "6months" ? "2px solid var(--accent-2)" : "1px solid var(--line)",
-                    background: values.planSelected === "6months" ? "rgba(255, 46, 166, 0.05)" : "rgba(255,255,255,0.01)",
+                    border: values.planSelected === "featured" ? "2px solid var(--accent-2)" : "1px solid var(--line)",
+                    background: values.planSelected === "featured" ? "rgba(255, 46, 166, 0.05)" : "rgba(255,255,255,0.01)",
                     borderRadius: '12px', padding: '16px', cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s ease'
                   }}
                 >
-                  <strong style={{ display: 'block', fontSize: '15px' }}>6 Months</strong>
-                  <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>Professional</span>
+                  <strong style={{ display: 'block', fontSize: '15px' }}>Featured Editorial</strong>
+                  <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>Priority + Placement</span>
                   <span style={{ fontSize: '16px', fontWeight: '900', color: '#fff', display: 'block', marginTop: '8px' }}>$89</span>
-                </div>
-
-                <div 
-                  onClick={() => handlePlanSelect("12months")}
-                  style={{ 
-                    border: values.planSelected === "12months" ? "2px solid #ffe66b" : "1px solid var(--line)",
-                    background: values.planSelected === "12months" ? "rgba(255, 230, 107, 0.05)" : "rgba(255,255,255,0.01)",
-                    borderRadius: '12px', padding: '16px', cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s ease'
-                  }}
-                >
-                  <strong style={{ display: 'block', fontSize: '15px' }}>12 Months</strong>
-                  <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>Authority</span>
-                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#fff', display: 'block', marginTop: '8px' }}>$149</span>
                 </div>
               </div>
             </div>
@@ -470,15 +448,14 @@ export default function SubmissionForm({ categories }) {
               style={{ 
                 marginTop: '24px', padding: '20px 24px', borderRadius: '16px', 
                 background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(0, 216, 189, 0.08) 100%)', 
-                border: '1px solid rgba(139, 92, 246, 0.3)',
-                animation: 'drawer-in 0.25s ease both'
+                border: '1px solid rgba(139, 92, 246, 0.3)'
               }}
             >
               <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', fontSize: '15px', color: '#fff' }}>
-                <Phone size={16} style={{ color: 'var(--accent-3)' }} /> Payment & Direct Plan Activation
+                <Phone size={16} style={{ color: 'var(--accent-3)' }} /> Express Editorial Inquiries
               </h3>
               <p style={{ margin: '0 0 14px 0', fontSize: '13px', lineHeight: '1.6', color: 'rgba(255,255,255,0.9)' }}>
-                For paid plan processing ($49 / $89 / $149) or to extend your post validity, please contact us directly via phone or email:
+                For expedited editorial review, custom corporate partnerships, or questions regarding our publication standards:
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
                 <a 
@@ -518,7 +495,7 @@ export default function SubmissionForm({ categories }) {
               />
               <div>
                 <label htmlFor="terms">
-                  I confirm this content is original and agree to the guest posting guidelines and validation schedules. *
+                  I confirm this proposal is original, accurate, and complies with BizTech editorial and link guidelines. *
                 </label>
                 {errors.terms && <p className={styles.error}>{errors.terms}</p>}
               </div>
@@ -526,19 +503,19 @@ export default function SubmissionForm({ categories }) {
 
             <div className={styles.formActions}>
               <button className={styles.submitButton} type="submit" disabled={submitting}>
-                {submitting ? "Writing Dynamic Next.js Files..." : values.planSelected === "free" ? "Publish Guest Post (7 Days Free)" : `Submit Draft & Select ${values.planSelected === "3months" ? "3 Months ($49)" : values.planSelected === "6months" ? "6 Months ($89)" : "12 Months ($149)"}`}
+                {submitting ? "Submitting Proposal..." : "Submit Proposal for Review"}
                 <ArrowRight size={17} aria-hidden="true" />
               </button>
             </div>
           </form>
         </div>
 
-        <aside className={styles.formAside} aria-label="SEO Guidelines">
+        <aside className={styles.formAside} aria-label="Editorial Guidelines">
           <div className={styles.infoCard} style={{ border: '1px solid rgba(0, 216, 189, 0.3)' }}>
             <Phone className={styles.infoCardIcon} size={24} style={{ color: 'var(--accent-3)' }} aria-hidden="true" />
-            <h3>Direct Payment Support</h3>
+            <h3>Direct Editorial Desk</h3>
             <p style={{ fontSize: '13px', margin: '0 0 10px 0', lineHeight: '1.5' }}>
-              To finalize payment for paid guest posts or request custom duration extensions, contact us directly:
+              For custom content partnership inquiries or express review assistance:
             </p>
             <a href="tel:+12148961780" style={{ display: 'block', color: 'var(--accent-3)', fontWeight: 'bold', fontSize: '13px', textDecoration: 'underline', marginBottom: '6px' }}>
               📞 +1 (214) 896-1780
@@ -549,25 +526,25 @@ export default function SubmissionForm({ categories }) {
           </div>
           <div className={styles.infoCard}>
             <ShieldCheck className={styles.infoCardIcon} size={25} style={{ color: 'var(--accent-3)' }} aria-hidden="true" />
-            <h3>Dynamic File Output</h3>
+            <h3>Human Moderation</h3>
             <p>
-              Submissions write physical code folders to the Next.js workspace in real-time. Hot-reload compiles the page instantly.
+              Every submitted proposal is evaluated by human editors for depth, originality, and technical relevance.
             </p>
           </div>
           <div className={styles.infoCard}>
             <Clock3 className={styles.infoCardIcon} size={25} style={{ color: 'var(--accent-2)' }} aria-hidden="true" />
-            <h3>Validation Policy</h3>
+            <h3>Review Timelines</h3>
             <ul className={styles.plainList}>
-              <li>Free posts compile for 7 days validation.</li>
-              <li>Premium subscriptions guarantee indexing and live path for 3, 6, or 12 months.</li>
-              <li>Links use custom SEO anchor metadata tags.</li>
+              <li>Community queue: 3–5 business days.</li>
+              <li>Express & Featured tiers: 48-hour priority review.</li>
+              <li>All links undergo contextual quality checks.</li>
             </ul>
           </div>
           <div className={styles.infoCard}>
             <Check className={styles.infoCardIcon} size={25} style={{ color: 'var(--accent)' }} aria-hidden="true" />
-            <h3>SEO Compliance</h3>
+            <h3>Link & Policy Transparency</h3>
             <p>
-              Maximum of two target backlinks per guest post. All external anchors must point to reputable domains.
+              External references must add context to readers. We strictly enforce editorial integrity and search engine compliance.
             </p>
           </div>
         </aside>

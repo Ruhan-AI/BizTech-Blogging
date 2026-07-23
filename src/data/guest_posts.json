@@ -8,60 +8,37 @@
     "date": "2026-07-20",
     "readTime": "6 min read",
     "author": {
-      "name": "Ruhan SEO Specialist",
+      "name": "Ruhan",
       "slug": "ruhan-seo-specialist",
-      "role": "SEO Lead",
-      "initials": "RS",
-      "bio": "SEO veteran"
+      "role": "SEO Lead & Contributor",
+      "initials": "R",
+      "bio": "SEO strategist specializing in technical search infrastructure and organic acquisition."
     },
     "gradient": "linear-gradient(135deg, #090909 0%, #28223a 58%, #a98aff 145%)",
     "featured": false,
     "tags": [
       "SEO",
-      "backlinks",
-      "ranking"
+      "Search Strategy",
+      "Growth Engines"
     ],
-    "planSelected": "3months",
-    "expiryDate": "2026-10-18",
-    "gdriveImage": "https://drive.google.com/file/d/example",
-    "backlinkUrl": "https://mysite.com/deals",
-    "anchorText": "best SEO deals",
     "metaDescription": "A complete guide on compounding guest posting strategies for SaaS companies to scale search traffic.",
-    "focusKeywords": "SEO, backlinks, ranking",
-    "isGuestPost": true
-  },
-  {
-    "slug": "a-comprehensive-guide-to-qa-automation-0442",
-    "secureToken": "sub_token_1784736820442_7iantsk",
-    "title": "A Comprehensive Guide to QA Automation",
-    "excerpt": "A complete guide to QA automation best practices, setups, and integration.",
-    "category": "SEO & Digital Growth",
-    "categorySlug": "seo-digital-growth",
-    "date": "2026-07-22",
-    "readTime": "3 min read",
-    "author": {
-      "name": "Test User",
-      "slug": "test-user",
-      "role": "QA Engineer, TestCorp",
-      "initials": "TU",
-      "bio": "Test User is a senior QA automation engineer."
-    },
-    "gradient": "linear-gradient(135deg, #090909 0%, #28223a 58%, #a98aff 145%)",
-    "featured": false,
-    "tags": [
-      "QA",
-      "testing",
-      "automation"
-    ],
-    "planSelected": "free",
-    "expiryDate": "2026-07-29",
-    "gdriveImage": "",
-    "backlinkUrl": "https://testcorp.com/blog",
-    "anchorText": "best QA practices",
-    "metaDescription": "A complete guide to QA automation best practices, setups, and integration.",
-    "focusKeywords": "QA, testing, automation",
-    "draftContent": "This is a test article draft. QA automation is essential for modern software development cycles. We will cover unit testing, integration testing, end-to-end testing, and continuous integration. Writing tests ensures code reliability and improves delivery velocity.",
-    "status": "published",
-    "isGuestPost": true
+    "isGuestPost": true,
+    "content": [
+      {
+        "heading": "The Anatomy of Compounding Organic Acquisition",
+        "paragraphs": [
+          "Building a sustainable organic growth engine for SaaS requires moving beyond one-off backlinks toward structured content pillars and authoritative contextual citations.",
+          "When guest contributions focus on deep industry problem-solving rather than keyword stuffing, search engines reward both the host publication and the contributing brand with compounding domain trust."
+        ]
+      },
+      {
+        "heading": "Core Pillars for Sustainable Authority",
+        "bullets": [
+          "Focus on original data, benchmark reports, and actionable workflows.",
+          "Ensure internal and external citations provide genuine value to human readers.",
+          "Maintain long-term content relevance through periodic updates and technical accuracy."
+        ]
+      }
+    ]
   }
 ]

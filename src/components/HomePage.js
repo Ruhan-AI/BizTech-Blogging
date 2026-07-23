@@ -4,19 +4,13 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  ArrowUpRight,
   BookOpen,
   CheckCircle2,
-  Clock,
   PenLine,
-  SearchCheck,
   Sparkles,
-  TrendingUp,
   Users,
   Flame,
   ShieldCheck,
-  Zap,
-  Layers,
 } from "lucide-react";
 import { categories, posts, authors } from "@/data/posts";
 import PostCard from "./PostCard";
@@ -117,11 +111,11 @@ export default function HomePage() {
           </div>
           <div>
             <strong style={{ fontSize: "28px", color: "var(--accent-2)", display: "block" }}>24–48h</strong>
-            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Review Turnaround</span>
+            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Express Review Option</span>
           </div>
           <div>
-            <strong style={{ fontSize: "28px", color: "#fff", display: "block" }}>7 Days</strong>
-            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Free Validation Period</span>
+            <strong style={{ fontSize: "28px", color: "#fff", display: "block" }}>Free Queue</strong>
+            <span style={{ fontSize: "13px", color: "var(--muted)" }}>Community Submissions</span>
           </div>
         </div>
       </section>
@@ -382,19 +376,19 @@ export default function HomePage() {
               </span>
               <h2 style={{ color: "#fff", fontSize: "26px", margin: "8px 0" }}>Built for Strategic Value, Not Spam</h2>
               <p style={{ color: "var(--muted)", fontSize: "14px", lineHeight: "1.6", margin: 0 }}>
-                Every guest post and reference link undergoes strict human screening. Free guest posts include 7-day validation with optional 3, 6, or 12-month extensions.
+                Every guest post and reference link undergoes human screening. Community submissions are reviewed in our standard queue, with optional Express or Featured editorial options.
               </p>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "#fff", fontSize: "14px" }}>
-                <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Free 7-Day Contribution Validation
+                <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Community Editorial Queue & Human Moderation
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "#fff", fontSize: "14px" }}>
                 <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Explicit `rel=&quot;sponsored&quot;` / `rel=&quot;nofollow&quot;` Qualifications
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "#fff", fontSize: "14px" }}>
-                <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Direct Phone & Email Support for Plan Extensions
+                <CheckCircle2 size={18} style={{ color: "var(--accent-3)" }} /> Direct Desk Support for Editorial Tiers
               </div>
 
               <div style={{ marginTop: "10px" }}>

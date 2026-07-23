@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
+import SceneShell, { useReducedMotion } from "./SceneShell";
 
 const CATEGORIES = [
   { name: "SEO & Growth", slug: "seo-digital-growth", color: "#00d8bd", angle: 0 },
@@ -13,19 +14,13 @@ const CATEGORIES = [
   { name: "Career Development", slug: "vocational-career-development", color: "#38bdf8", angle: ((Math.PI * 2) / 6) * 5 },
 ];
 
-export default function KnowledgeOrb() {
+function OrbCanvas() {
   const canvasRef = useRef(null);
   const router = useRouter();
-  const [hoveredNode, setHoveredNode] = useState(null);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    // Check if user prefers reduced motion
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mediaQuery.matches) {
-      setReducedMotion(true);
-      return;
-    }
+    if (reducedMotion) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -34,13 +29,22 @@ export default function KnowledgeOrb() {
     if (!ctx) return;
 
     let animationFrameId;
-    let width = (canvas.width = canvas.parentElement.offsetWidth || 500);
-    let height = (canvas.height = canvas.parentElement.offsetHeight || 500);
+    const dpr = Math.min(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 1.5);
+    
+    let parentWidth = canvas.parentElement?.offsetWidth || 500;
+    let parentHeight = canvas.parentElement?.offsetHeight || 420;
+
+    canvas.width = parentWidth * dpr;
+    canvas.height = parentHeight * dpr;
+    ctx.scale(dpr, dpr);
 
     const handleResize = () => {
       if (!canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.offsetWidth || 500;
-      height = canvas.height = canvas.parentElement.offsetHeight || 500;
+      parentWidth = canvas.parentElement.offsetWidth || 500;
+      parentHeight = canvas.parentElement.offsetHeight || 420;
+      canvas.width = parentWidth * dpr;
+      canvas.height = parentHeight * dpr;
+      ctx.scale(dpr, dpr);
     };
     window.addEventListener("resize", handleResize);
 
@@ -50,15 +54,14 @@ export default function KnowledgeOrb() {
 
     const handleMouseMove = (e) => {
       const rect = canvas.getBoundingClientRect();
-      mouseX = (e.clientX - rect.left - width / 2) / (width / 2);
-      mouseY = (e.clientY - rect.top - height / 2) / (height / 2);
+      mouseX = (e.clientX - rect.left - parentWidth / 2) / (parentWidth / 2);
+      mouseY = (e.clientY - rect.top - parentHeight / 2) / (parentHeight / 2);
     };
     canvas.addEventListener("mousemove", handleMouseMove);
 
-    // GSAP floating animation
     const orbObj = { pulse: 1 };
-    gsap.to(orbObj, {
-      pulse: 1.15,
+    const gsapTween = gsap.to(orbObj, {
+      pulse: 1.12,
       duration: 3,
       repeat: -1,
       yoyo: true,
@@ -66,23 +69,23 @@ export default function KnowledgeOrb() {
     });
 
     const render = () => {
-      ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, parentWidth, parentHeight);
 
-      const centerX = width / 2;
-      const centerY = height / 2;
-      const radiusX = Math.min(width, height) * 0.35;
+      const centerX = parentWidth / 2;
+      const centerY = parentHeight / 2;
+      const radiusX = Math.min(parentWidth, parentHeight) * 0.35;
       const radiusY = radiusX * 0.45;
 
-      rotationAngle += 0.006;
+      rotationAngle += 0.005;
 
-      // Draw central BizTech 3D orb
+      // Draw central 3D orb
       const gradient = ctx.createRadialGradient(
         centerX + mouseX * 20,
         centerY + mouseY * 20,
         10,
         centerX,
         centerY,
-        70 * orbObj.pulse,
+        70 * orbObj.pulse
       );
       gradient.addColorStop(0, "#a98aff");
       gradient.addColorStop(0.5, "#6041db");
@@ -92,7 +95,7 @@ export default function KnowledgeOrb() {
       ctx.arc(centerX + mouseX * 15, centerY + mouseY * 15, 65 * orbObj.pulse, 0, Math.PI * 2);
       ctx.fillStyle = gradient;
       ctx.shadowColor = "#6041db";
-      ctx.shadowBlur = 35;
+      ctx.shadowBlur = 30;
       ctx.fill();
       ctx.shadowBlur = 0;
 
@@ -103,12 +106,12 @@ export default function KnowledgeOrb() {
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Render 3D orbiting category nodes
+      // Render category nodes
       CATEGORIES.forEach((cat) => {
         const currentAngle = cat.angle + rotationAngle;
         const x = centerX + Math.cos(currentAngle) * radiusX + mouseX * 25;
         const y = centerY + Math.sin(currentAngle) * radiusY + mouseY * 25;
-        const scale = (Math.sin(currentAngle) + 2) / 3; // depth perspective scaling
+        const scale = (Math.sin(currentAngle) + 2) / 3;
 
         ctx.beginPath();
         ctx.arc(x, y, 12 * scale, 0, Math.PI * 2);
@@ -118,7 +121,6 @@ export default function KnowledgeOrb() {
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Label tag
         ctx.font = `${Math.round(11 * scale)}px Inter, sans-serif`;
         ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
         ctx.fillText(cat.name, x + 16 * scale, y + 4 * scale);
@@ -131,40 +133,11 @@ export default function KnowledgeOrb() {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      gsapTween.kill();
       window.removeEventListener("resize", handleResize);
       canvas.removeEventListener("mousemove", handleMouseMove);
     };
   }, [reducedMotion]);
-
-  if (reducedMotion) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: "400px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "radial-gradient(circle at center, rgba(139, 92, 246, 0.2) 0%, transparent 70%)",
-        }}
-      >
-        <div
-          style={{
-            padding: "24px 36px",
-            borderRadius: "20px",
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            textAlign: "center",
-          }}
-        >
-          <strong style={{ display: "block", color: "#fff", fontSize: "18px" }}>The Editorial Intelligence Universe</strong>
-          <span style={{ fontSize: "13px", color: "var(--muted)", marginTop: "6px", display: "block" }}>
-            6 Connected Category Pillars
-          </span>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div style={{ width: "100%", height: "420px", position: "relative" }}>
@@ -172,7 +145,7 @@ export default function KnowledgeOrb() {
       <div
         style={{
           position: "absolute",
-          bottom: "10px",
+          bottom: "12px",
           left: "50%",
           transform: "translateX(-50%)",
           fontSize: "11px",
@@ -184,5 +157,17 @@ export default function KnowledgeOrb() {
         ✦ 3D Knowledge Orb • Hover to tilt perspective
       </div>
     </div>
+  );
+}
+
+export default function KnowledgeOrb() {
+  return (
+    <SceneShell
+      fallbackTitle="The BizTech Editorial Universe"
+      fallbackSubtitle="6 Interconnected Knowledge Pillars"
+      height="420px"
+    >
+      <OrbCanvas />
+    </SceneShell>
   );
 }

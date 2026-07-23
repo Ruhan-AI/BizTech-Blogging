@@ -1,11 +1,19 @@
-import { PrismaClient } from "@prisma/client";
+let prismaInstance = null;
 
-const globalForPrisma = globalThis;
+try {
+  const { PrismaClient } = require("@prisma/client");
+  const globalForPrisma = globalThis;
 
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
+  prismaInstance =
+    globalForPrisma.prisma ||
+    new PrismaClient({
+      log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+  if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prismaInstance;
+} catch {
+  // @prisma/client is optional when database is not connected
+  prismaInstance = null;
+}
+
+export const prisma = prismaInstance;
