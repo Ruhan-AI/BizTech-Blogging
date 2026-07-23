@@ -43,9 +43,32 @@ export default async function AuthorPage({ params }) {
 
   if (!author) notFound();
 
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: author.name,
+      jobTitle: author.role,
+      description: author.bio,
+      url: `https://blog.biztechra.site/author/${author.slug}`,
+      worksFor: {
+        "@type": "Organization",
+        name: "BizTech Resource Analyst",
+      },
+    },
+  };
+
   return (
     <main className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <section className={styles.archiveHero}>
+
         <div className={styles.container}>
           <div className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/">Home</Link>

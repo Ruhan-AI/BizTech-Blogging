@@ -113,6 +113,31 @@ export default async function InsightPage({ params }) {
     })),
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: post.category,
+        item: `${SITE_URL}/category/${post.categorySlug}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: articleUrl,
+      },
+    ],
+  };
+
   return (
     <main className={styles.page}>
       <script
@@ -127,6 +152,13 @@ export default async function InsightPage({ params }) {
           __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c"),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+
 
       <header className={styles.articleHeader}>
         <div className={`${styles.container} ${styles.articleIntro}`}>
