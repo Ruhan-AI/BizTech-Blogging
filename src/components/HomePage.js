@@ -12,13 +12,12 @@ import {
   Flame,
   ShieldCheck,
   TrendingUp,
-  Award,
-  Zap,
   Globe,
   Layers,
-  Search,
   Briefcase,
   Compass,
+  ArrowUpRight,
+  Clock,
 } from "lucide-react";
 import { categories, posts, authors } from "@/data/posts";
 import PostCard from "./PostCard";
@@ -37,12 +36,15 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState("insights");
 
   const featured = posts.find((post) => post.featured) || posts[0];
+  const secondaryFeatured = posts.slice(1, 3); // Two secondary editor's picks
+
   const filteredPosts = posts.filter(
     (post) =>
       post.slug !== featured.slug &&
+      !secondaryFeatured.some((sp) => sp.slug === post.slug) &&
       (activeTopic === "all" || post.category === activeTopic),
   );
-  const visiblePosts = filteredPosts.length ? filteredPosts : posts.slice(1);
+  const visiblePosts = filteredPosts.length ? filteredPosts : posts.slice(3);
 
   const hotInsights = useMemo(() => [
     { post: posts[0], change: "steady", changeText: "steady" },
@@ -146,8 +148,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Insight Section */}
-      <section className="section section-editorial-split">
+      {/* Editor's Feature Showcase Section */}
+      <section className="section section-editorial-split" id="editors-feature">
         <div className="container">
           <div className="section-header">
             <div>
@@ -157,38 +159,165 @@ export default function HomePage() {
             <p>Hand-picked for immediate strategic relevance and practical execution.</p>
           </div>
 
-          <article className="lead-story-card" style={{ borderRadius: "24px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(13, 13, 43, 0.85)" }}>
-            <div className="lead-story-media" style={{ background: featured.gradient, minHeight: "280px", position: "relative" }}>
-              <span className="lead-category-badge" style={{ background: "rgba(0,0,0,0.4)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.2)" }}>
-                {featured.category}
-              </span>
+          {/* Main Featured Split Showcase Card */}
+          <article
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              borderRadius: "28px",
+              overflow: "hidden",
+              border: "1px solid rgba(255, 255, 255, 0.14)",
+              background: "rgba(10, 10, 36, 0.88)",
+              boxShadow: "0 30px 80px rgba(0, 0, 0, 0.45)",
+              backdropFilter: "blur(24px)",
+              marginBottom: "32px",
+            }}
+          >
+            {/* Media Art Column */}
+            <div
+              style={{
+                background: featured.gradient,
+                minHeight: "360px",
+                position: "relative",
+                padding: "32px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                overflow: "hidden",
+              }}
+            >
+              <div className="post-art-grid" aria-hidden="true" style={{ opacity: 0.2 }} />
+              
+              {/* Top Choice Badge */}
+              <div style={{ zIndex: 2 }}>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "6px 14px",
+                    borderRadius: "999px",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                    color: "var(--accent-3)",
+                    fontSize: "11px",
+                    fontWeight: "900",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    backdropFilter: "blur(12px)",
+                  }}
+                >
+                  <Sparkles size={13} /> Editor&apos;s Choice Feature
+                </span>
+              </div>
+
+              {/* Bottom Category Tag */}
+              <div style={{ zIndex: 2 }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    padding: "6px 14px",
+                    borderRadius: "12px",
+                    background: "rgba(255, 255, 255, 0.12)",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                    color: "#fff",
+                    fontSize: "12px",
+                    fontWeight: "800",
+                    letterSpacing: "0.05em",
+                    backdropFilter: "blur(10px)",
+                  }}
+                >
+                  {featured.category}
+                </span>
+              </div>
             </div>
-            <div className="lead-story-content" style={{ padding: "32px" }}>
-              <div className="story-meta" style={{ display: "flex", gap: "12px", fontSize: "12px", color: "var(--accent-3)", fontWeight: "700" }}>
-                <span>{featured.date}</span>
-                <span>•</span>
-                <span>{featured.readTime}</span>
-              </div>
-              <h3 style={{ margin: "14px 0 12px", fontSize: "28px", lineHeight: "1.25" }}>
-                <Link href={`/insights/${featured.slug}`} style={{ color: "#fff", textDecoration: "none" }}>{featured.title}</Link>
-              </h3>
-              <p style={{ color: "var(--muted)", fontSize: "15px", lineHeight: "1.6" }}>{featured.excerpt}</p>
 
-              <div className="author-strip" style={{ display: "flex", alignItems: "center", gap: "12px", margin: "24px 0" }}>
-                <div className="author-avatar" style={{ width: "42px", height: "42px", borderRadius: "50%", background: "var(--accent)", color: "#fff", display: "grid", placeItems: "center", fontWeight: "900" }}>
-                  {featured.author.initials}
+            {/* Content Column */}
+            <div style={{ padding: "40px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "12px", color: "var(--accent-3)", fontWeight: "700" }}>
+                  <span><Clock size={13} style={{ verticalAlign: "middle", marginRight: "4px" }} />{featured.readTime}</span>
+                  <span>•</span>
+                  <span>{featured.date}</span>
                 </div>
-                <div>
-                  <strong style={{ display: "block", color: "#fff", fontSize: "15px" }}>{featured.author.name}</strong>
-                  <span style={{ fontSize: "12px", color: "var(--muted)" }}>{featured.author.role}</span>
-                </div>
+
+                <h3 style={{ margin: "16px 0 14px", fontSize: "clamp(24px, 3vw, 32px)", lineHeight: "1.2", fontWeight: "900" }}>
+                  <Link href={`/insights/${featured.slug}`} style={{ color: "#ffffff", textDecoration: "none" }}>
+                    {featured.title}
+                  </Link>
+                </h3>
+
+                <p style={{ color: "var(--muted)", fontSize: "15px", lineHeight: "1.65", margin: 0 }}>
+                  {featured.excerpt}
+                </p>
               </div>
 
-              <Link className="button button-primary" href={`/insights/${featured.slug}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
-                Read Full Insight <ArrowRight size={16} />
-              </Link>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: "14px", margin: "28px 0 24px" }}>
+                  <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: "linear-gradient(135deg, #7d63ff, #ff2ea6)", color: "#fff", display: "grid", placeItems: "center", fontWeight: "900", fontSize: "15px", border: "1px solid rgba(255,255,255,0.2)" }}>
+                    {featured.author.initials}
+                  </div>
+                  <div>
+                    <strong style={{ display: "block", color: "#fff", fontSize: "15px" }}>{featured.author.name}</strong>
+                    <span style={{ fontSize: "12px", color: "var(--muted)" }}>{featured.author.role}</span>
+                  </div>
+                </div>
+
+                <Link className="button button-primary button-large" href={`/insights/${featured.slug}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                  Read Full Insight <ArrowRight size={17} />
+                </Link>
+              </div>
             </div>
           </article>
+
+          {/* Secondary Editor's Choice Picks */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "22px" }}>
+            {secondaryFeatured.map((post) => (
+              <article
+                key={post.slug}
+                style={{
+                  padding: "28px",
+                  borderRadius: "20px",
+                  background: "rgba(255, 255, 255, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  transition: "all 0.25s ease",
+                }}
+                className="pillar-card-hover"
+              >
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
+                    <span style={{ fontSize: "11px", color: "var(--accent-3)", fontWeight: "800", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                      {post.category}
+                    </span>
+                    <span style={{ fontSize: "11px", color: "var(--muted)" }}>{post.readTime}</span>
+                  </div>
+                  <h3 style={{ margin: "0 0 10px 0", fontSize: "19px", lineHeight: "1.3", fontWeight: "800" }}>
+                    <Link href={`/insights/${post.slug}`} style={{ color: "#fff", textDecoration: "none" }}>
+                      {post.title}
+                    </Link>
+                  </h3>
+                  <p style={{ color: "var(--muted)", fontSize: "13px", lineHeight: "1.6", margin: 0 }}>
+                    {post.excerpt}
+                  </p>
+                </div>
+
+                <div style={{ marginTop: "24px", paddingTop: "16px", borderTop: "1px solid rgba(255, 255, 255, 0.06)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", color: "#fff", display: "grid", placeItems: "center", fontSize: "10px", fontWeight: "bold" }}>
+                      {post.author.initials}
+                    </span>
+                    <span style={{ fontSize: "13px", color: "#fff", fontWeight: "600" }}>{post.author.name}</span>
+                  </div>
+                  <Link href={`/insights/${post.slug}`} style={{ color: "var(--accent-3)", display: "flex", alignItems: "center" }} aria-label={`Read ${post.title}`}>
+                    <ArrowUpRight size={18} />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
