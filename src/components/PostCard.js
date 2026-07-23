@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Clock } from "lucide-react";
+import { ArrowUpRight, Clock, Sparkles } from "lucide-react";
 
 export default function PostCard({ post }) {
   return (
@@ -16,18 +16,20 @@ export default function PostCard({ post }) {
             top: "12px",
             right: "12px",
             zIndex: 10,
-            background: post.planSelected === "free" ? "rgba(0, 216, 189, 0.95)" : "rgba(255, 46, 166, 0.95)",
-            color: "#05050d",
+            background: "rgba(139, 92, 246, 0.9)",
+            color: "#ffffff",
             fontSize: "9px",
-            fontWeight: "900",
+            fontWeight: "800",
             textTransform: "uppercase",
             letterSpacing: "0.06em",
-            padding: "4px 8px",
-            borderRadius: "6px",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
+            padding: "4px 9px",
+            borderRadius: "999px",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
           }}
         >
-          {post.planSelected === "free" ? "Free 7-Day" : "Premium Guest"}
+          Guest Insight
         </span>
       )}
       <Link
