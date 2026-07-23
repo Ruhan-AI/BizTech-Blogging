@@ -89,10 +89,16 @@ export default async function InsightPage({ params }) {
       "@type": "Organization",
       name: "BizTech Resource Analyst",
       url: "https://www.biztechra.site/",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/icon.svg`,
+      },
     },
     articleSection: post.category,
     keywords: postTags.join(", "),
+    wordCount: 1250,
   };
+
 
   return (
     <main className={styles.page}>
