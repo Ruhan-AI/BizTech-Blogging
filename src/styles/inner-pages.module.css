@@ -1332,18 +1332,25 @@
 @media (max-width: 680px) {
   .container,
   .narrowContainer {
-    width: min(calc(100% - 28px), var(--container, 1180px));
+    width: min(calc(100% - 24px), var(--container, 1180px));
   }
 
   .hero,
-  .archiveHero {
-    padding-top: calc(var(--header-height, 104px) + 2rem);
+  .archiveHero,
+  .articleHeader {
+    padding-top: calc(var(--header-height, 90px) + 1.2rem) !important;
   }
 
   .title,
   .archiveTitle,
   .articleTitle {
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
+    font-size: clamp(1.9rem, 7.5vw, 3rem) !important;
+  }
+
+  .formCard {
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
   }
 
   .sectionHeader,
@@ -1352,7 +1359,7 @@
   }
 
   .sectionHeader p {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
   }
 
   .guidelineGrid,
@@ -1363,15 +1370,17 @@
   .formRow,
   .formAside {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .topicCard {
     min-height: auto;
+    padding: 1.2rem;
   }
 
   .topicIndex,
   .stepCard::before {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .searchForm {
@@ -1383,13 +1392,15 @@
   }
 
   .articleCover {
-    margin-inline: -14px;
+    margin-inline: -12px;
     border-radius: 0;
+    height: 14rem;
   }
 
   .authorHero,
   .authorBox {
     grid-template-columns: 1fr;
+    padding: 20px 16px;
   }
 
   .authorHero {
