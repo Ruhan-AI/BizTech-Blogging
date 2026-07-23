@@ -71,6 +71,7 @@ export default async function InsightPage({ params }) {
       ];
 
   const postTags = Array.isArray(post.tags) ? post.tags : [post.category || "GuestPost"];
+  const postFaqs = getPostFaqs(post);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -99,6 +100,18 @@ export default async function InsightPage({ params }) {
     wordCount: 1250,
   };
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: postFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
 
   return (
     <main className={styles.page}>
@@ -106,6 +119,12 @@ export default async function InsightPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(articleSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c"),
         }}
       />
 
@@ -161,9 +180,25 @@ export default async function InsightPage({ params }) {
             );
           })}
 
-          <div className={styles.tagList} aria-label="Article topics">
+          <section className={styles.faqSection} id="frequently-asked-questions">
+            <div className={styles.faqHeader}>
+              <h2>Frequently Asked Questions</h2>
+              <p>Key implementation questions and strategic takeaways.</p>
+            </div>
+            <div className={styles.faqList}>
+              {postFaqs.map((faq, index) => (
+                <details className={styles.faqItem} key={faq.question} open={index === 0}>
+                  <summary className={styles.faqQuestion}>{faq.question}</summary>
+                  <p className={styles.faqAnswer}>{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          <div className={styles.tagList} style={{ marginTop: "2.5rem" }} aria-label="Article topics">
             {postTags.map((tag) => <span className={styles.tag} key={tag}>{tag}</span>)}
           </div>
+
 
           <div className={styles.authorBox}>
             <div className={styles.avatar} aria-hidden="true">{post.author.initials}</div>
@@ -293,3 +328,31 @@ function formatDate(date) {
     timeZone: "UTC",
   }).format(new Date(date));
 }
+
+function getPostFaqs(post) {
+  if (Array.isArray(post.faqs) && post.faqs.length > 0) {
+    return post.faqs;
+  }
+
+  const primaryTag = Array.isArray(post.tags) && post.tags.length ? post.tags[0] : post.category;
+
+  return [
+    {
+      question: `What is the core strategic takeaway of "${post.title}"?`,
+      answer: post.excerpt || "This guide provides an experience-led operating model to build sustainable, compounding growth and actionable tactical clarity.",
+    },
+    {
+      question: `How can organizations implement these ${post.category} practices effectively?`,
+      answer: `Teams should start by auditing existing processes, defining clear baseline metrics, and rolling out structured documentation. Focus on modular execution before scaling across broader ${primaryTag} initiatives.`,
+    },
+    {
+      question: `What are the key performance metrics to track when executing ${primaryTag}?`,
+      answer: `Key vitals include organic growth velocity, conversion funnel performance, Net Revenue Retention (NRR), and team output quality. Review metrics on a quarterly basis to refine strategy.`,
+    },
+    {
+      question: `Why is human editorial moderation critical for ${post.category} insights?`,
+      answer: `Human editorial review ensures that every recommendation is grounded in real operational evidence and first-hand experience rather than generic automated theory.`,
+    },
+  ];
+}
+
